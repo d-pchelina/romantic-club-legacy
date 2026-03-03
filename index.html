@@ -7,31 +7,93 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
-            background-color: var(--tg-theme-bg-color); /* Используем цвета темы ТГ */
-            color: var(--tg-theme-text-color);
-            font-family: sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+            color: #fff;
         }
+        body::before {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, #ffc1e3, transparent 40%),
+                        radial-gradient(circle at 70% 70%, #ff69b4, transparent 40%),
+                        linear-gradient(120deg, #ffb6d9, #ff85c1, #ff5ea8);
+            animation: moveBg 12s infinite alternate ease-in-out;
+            transform: rotate(0deg);
+            z-index: -1;
+        }
+
+        @keyframes moveBg {
+            0% {
+                transform: rotate(0deg) scale(1);
+            }
+            100% {
+                transform: rotate(15deg) scale(1.2);
+            }
+        }
+
+        /* Контейнер */
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        /* Логотип */
+        .logo {
+            width: 180px;
+            margin-bottom: 20px;
+        }
+
+        /* Текст */
+        .description {
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        /* Кнопка */
         button {
-            padding: 10px 20px;
-            background: var(--tg-theme-button-color);
-            color: var(--tg-theme-button-text-color);
+            padding: 14px 28px;
+            background: #ff4fa3;
             border: none;
-            border-radius: 8px;
+            border-radius: 30px;
+            font-size: 16px;
+            color: white;
             cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 8px 20px rgba(255, 0, 120, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(255, 0, 120, 0.6);
         }
     </style>
 </head>
 <body>
-    <h1 id="greeting">Загрузка...</h1>
-    <p>Ваш прогресс будет сохранен локально.</p>
-    <button id="main-button">Начать историю</button>
+    <div class="container">
+        <!-- Замените logo.png на свой файл -->
+        <img src="materials/logo_game.png" alt="Логотип игры" class="logo">
 
+        <div class="description">
+            Приветствуем тебя в нашей игре.  
+            Будь внимателен, на данный момент мы не сохраняем твой игровой процесс.
+        </div>
+
+        <button id="main-button">Начать историю</button>
+    </div>
     <script>
         // Инициализация WebApp
         const tg = window.Telegram.WebApp;
