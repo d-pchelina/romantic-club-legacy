@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">>
     <title>Романтический Клуб: Наследие</title>
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -38,6 +38,18 @@
     <div class="chapter-card locked" onclick="tg.showAlert('Завершите предыдущие главы')">
         <div class="chapter-title">Глава 3: Знакомство с преподавателем</div>
         <div class="chapter-status">Закрыто</div>
+    </div>
+</div>
+<div id="scene-screen" style="display: none;">
+    <div class="scene-background" id="scene-bg"></div>
+    <img id="scene-character" class="scene-character" src="" alt="Персонаж">
+    
+    <div class="dialogue-box">
+        <div class="speaker-name" id="speaker-name"></div>  
+        <div id="dialogue-text" class="dialogue-text"></div>
+        
+        <button id="prev-btn" class="prev-button">←</button>  
+        <button id="next-btn" class="next-button">→</button>
     </div>
 </div>
 
