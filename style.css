@@ -203,8 +203,8 @@
     bottom: 0;
     transform: translateX(0);       /* убираем центральный сдвиг */
 
-    max-height: 82vh;               /* больше места по высоте */
-    max-width: 70vw;                /* не даём вылезти слишком вправо */
+    max-height: 98vh;               /* больше места по высоте */
+    max-width: 100vw;                /* не даём вылезти слишком вправо */
 
     object-fit: contain;
     object-position: bottom left;   /* важно для обрезки, если арт неидеальный */
