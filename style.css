@@ -200,29 +200,43 @@
 /* 1. Общие настройки для всех персонажей */
 /* --- ПЕРСОНАЖИ --- */
 
+/* --- ПЕРСОНАЖИ (ОБНОВЛЕННЫЕ, ЧТОБЫ УМЕСТИТЬСЯ) --- */
+
 .scene-character {
     position: absolute;
+    bottom: 0;
+    height: 96vh; /* Оставляем высоту */
+    
+    /* Сужаем контейнер */
+    width: 38vw !important; /* Уменьшили ширину */
+    
+    /* Включаем обрезание */
+    overflow: hidden; 
+    
+    object-fit: contain;
     z-index: 3;
     pointer-events: none;
-    bottom: 0;
-    height: 96vh;
-    width: auto;
-    object-fit: contain;
-    /* Здесь НЕТ left: 0 и НЕТ transform, чтобы не мешать классам сторон */
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+/* Позиция для Макса (СЛЕВА) - немного "срезаем" левый бок */
 .char-left {
-    left: 5vw; 
+    left: -5vw; /* Задвинули за край экрана */
     object-position: left bottom;
     transform: scaleX(1); 
 }
 
+/* Позиция для Алисы (СПРАВА) - немного "срезаем" правый бок */
 .char-right {
-    right: 5vw; 
-    left: auto; /* Сбрасываем left на всякий случай */
+    right: -5vw; /* Задвинули за край экрана */
+    left: auto; 
     object-position: right bottom;
-    transform: scaleX(-1); /* Отражение */
+    transform: scaleX(-1); /* Отражаем */
 }
+
+/* --- АДАПТИВНОСТЬ (МОБИЛЬНЫЕ) --- */
+
+
 
 /* --- ЧАШКА --- */
 #tea-in-hand {
@@ -236,32 +250,30 @@
     transition: opacity 0.3s ease;
     pointer-events: none;
 }
-
-/* --- АДАПТИВНОСТЬ (МОБИЛЬНЫЕ) --- */
-
 @media (max-width: 820px) {
     .scene-character {
         height: 100vh !important;
         max-height: 100vh;
-        max-width: 82vw;
-        /* УБРАЛИ object-position отсюда */
+        
+        /* Ещё сильнее сужаем на мобильных */
+        width: 45vw !important; 
     }
     
     .char-left {
-        object-position: left bottom;
-        left: 2vw; /* Чуть ближе к краю на узких экранах */
+        left: -8vw; /* Сдвигаем сильнее */
     }
 
     .char-right {
-        object-position: right bottom;
-        right: 2vw;
+        right: -8vw;
     }
-
     #tea-in-hand {
         left: 15vw; /* Корректируем чашку под новое положение Макса на мобиле */
         width: 32px;
     }
 }
+/* --- АДАПТИВНОСТЬ (МОБИЛЬНЫЕ) --- */
+
+
 
 .dialogue-box {
     position: absolute;
