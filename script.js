@@ -46,19 +46,10 @@ function startChapter(number) {
 // Главная функция отображения сцены
 function showScene(index) {
     const scene = currentChapterScenes[index];
+    if (!scene) { /* ... */ }
 
-    if (!scene) {
-        tg.showAlert("Конец первой главы… пока что 💋");
-        sceneScreen.style.display = 'none';
-        chaptersScreen.style.display = 'flex';
-        currentSceneIndex = 0;
-        return;
-    }
-
-    // Фон
+    // Фон и персонаж (без изменений)
     sceneBg.style.backgroundImage = `url(${scene.background})`;
-
-    // Персонаж
     if (scene.character) {
         sceneChar.src = scene.character;
         sceneChar.style.display = 'block';
@@ -68,12 +59,21 @@ function showScene(index) {
 
     const dialogueBox = document.querySelector('.dialogue-box');
 
-    // Текст / без текста
     if (scene.noText || !scene.text || scene.text.trim() === '') {
-        dialogueBox.style.display = 'none';
+        // НЕ скрываем блок, а делаем его минимальным
+        dialogueBox.style.display = 'block';
+        dialogueBox.style.height = '0';
+        dialogueBox.style.minHeight = '0';
+        dialogueBox.style.padding = '0';
+        dialogueBox.style.opacity = '0';
+        dialogueText.innerText = '';
         if (speakerName) speakerName.innerText = '';
-        
-        // Если хочешь авто-переход — оставь, если нет — удали этот if
+
+        // Кнопки остаются видимыми!
+        nextBtn.style.display = 'block';
+        prevBtn.style.display = (index === 0) ? 'none' : 'block';
+
+        // Авто-переход, если указана длительность
         if (scene.duration) {
             setTimeout(() => {
                 tg.HapticFeedback.impactOccurred('light');
@@ -81,29 +81,23 @@ function showScene(index) {
             }, scene.duration);
         }
     } else {
+        // Обычная сцена с текстом — возвращаем нормальный вид
         dialogueBox.style.display = 'block';
+        dialogueBox.style.height = '';           // или конкретное значение
+        dialogueBox.style.minHeight = '120px';
+        dialogueBox.style.padding = '16px 18px 58px 18px';
+        dialogueBox.style.opacity = '1';
 
         if (speakerName) {
             speakerName.innerText = scene.speaker?.trim() || '';
         }
-
         dialogueText.innerText = scene.text;
         dialogueText.style.opacity = 0;
-        setTimeout(() => {
-            dialogueText.style.opacity = 1;
-        }, 150);
+        setTimeout(() => { dialogueText.style.opacity = 1; }, 150);
+
+        nextBtn.style.display = 'block';
+        prevBtn.style.display = (index === 0) ? 'none' : 'block';
     }
-
-    // Кнопки ВСЕГДА видны (кроме "назад" на первой сцене)
-    nextBtn.style.display = 'block';
-    prevBtn.style.display = (index === 0) ? 'none' : 'block';
-
-    // Опционально: на последней сцене меняем кнопку "вперёд" на "Завершить"
-    // if (index === currentChapterScenes.length - 1) {
-    //     nextBtn.innerHTML = 'Завершить';
-    // } else {
-    //     nextBtn.innerHTML = '→';
-    // }
 }
 // ─── Навигация ───
 function goToNextScene() {

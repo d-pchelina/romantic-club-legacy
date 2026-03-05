@@ -341,7 +341,7 @@
 
 @media (max-width: 480px) {
     .scene-character {
-        max-width: 87vw;            /* или 88vw, если персонаж очень узкий */
+        max-width: 82vw;            /* или 88vw, если персонаж очень узкий */
         padding-left: 0.25vw;
     }
 }
