@@ -220,14 +220,14 @@
 
 /* Макс стоит слева */
 .char-left {
-    left: 2vw; 
+    left: 1vw; 
     object-position: left bottom;
     z-index: 3; /* Можно менять z-index, если хочешь, чтобы кто-то был "глубже" */
 }
 
 /* Алиса стоит справа и смотрит на Макса */
 .char-right {
-    right: 2vw;
+    right: 1vw;
     left: auto;
     object-position: right bottom;
     transform: scaleX(-1); /* Отражение */
