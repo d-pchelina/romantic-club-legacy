@@ -202,76 +202,65 @@
 
 /* --- ПЕРСОНАЖИ (ОБНОВЛЕННЫЕ, ЧТОБЫ УМЕСТИТЬСЯ) --- */
 
+/* --- ПЕРСОНАЖИ (БЕЗ ОБРЕЗАНИЯ) --- */
+
 .scene-character {
     position: absolute;
     bottom: 0;
-    height: 96vh; /* Оставляем высоту */
-    
-    /* Сужаем контейнер */
-    width: 38vw !important; /* Уменьшили ширину */
-    
-    /* Включаем обрезание */
-    overflow: hidden; 
-    
-    object-fit: contain;
     z-index: 3;
     pointer-events: none;
+    
+    /* Возвращаем автоматическую ширину под рост */
+    height: 96vh; 
+    width: auto;
+    
+    object-fit: contain;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Позиция для Макса (СЛЕВА) - немного "срезаем" левый бок */
+/* Макс стоит слева */
 .char-left {
-    left: -5vw; /* Задвинули за край экрана */
+    left: 2vw; 
     object-position: left bottom;
-    transform: scaleX(1); 
+    z-index: 3; /* Можно менять z-index, если хочешь, чтобы кто-то был "глубже" */
 }
 
-/* Позиция для Алисы (СПРАВА) - немного "срезаем" правый бок */
+/* Алиса стоит справа и смотрит на Макса */
 .char-right {
-    right: -5vw; /* Задвинули за край экрана */
-    left: auto; 
+    right: 2vw;
+    left: auto;
     object-position: right bottom;
-    transform: scaleX(-1); /* Отражаем */
+    transform: scaleX(-1); /* Отражение */
+    z-index: 4; /* Алиса будет чуть-чуть перекрывать Макса, если они столкнутся */
 }
-
-/* --- АДАПТИВНОСТЬ (МОБИЛЬНЫЕ) --- */
-
-
 
 /* --- ЧАШКА --- */
 #tea-in-hand {
     position: absolute;
     height: auto;
     width: 38px;
-    left: 18vw;    /* Привязка к левой стороне, где стоит Макс */
-    bottom: 53%;   /* Высота до руки */
+    left: 21vw;    /* Подгоняем под руку Макса */
+    bottom: 53%; 
     z-index: 5;
     transform: rotate(-10deg);
-    transition: opacity 0.3s ease;
     pointer-events: none;
 }
+
+/* --- АДАПТИВНОСТЬ --- */
 @media (max-width: 820px) {
     .scene-character {
-        height: 100vh !important;
-        max-height: 100vh;
-        
-        /* Ещё сильнее сужаем на мобильных */
-        width: 45vw !important; 
+        height: 100vh;
+        max-width: 85vw; /* Чтобы не вылезали за гигантские пределы */
     }
     
-    .char-left {
-        left: -8vw; /* Сдвигаем сильнее */
-    }
+    .char-left { left: 0; }
+    .char-right { right: 0; }
 
-    .char-right {
-        right: -8vw;
-    }
     #tea-in-hand {
-        left: 15vw; /* Корректируем чашку под новое положение Макса на мобиле */
-        width: 32px;
+        left: 25vw; /* На мобилках пропорции меняются, подправил */
+        width: 34px;
     }
 }
-/* --- АДАПТИВНОСТЬ (МОБИЛЬНЫЕ) --- */
 
 
 
