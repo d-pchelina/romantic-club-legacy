@@ -46,58 +46,84 @@ function startChapter(number) {
 // Главная функция отображения сцены
 function showScene(index) {
     const scene = currentChapterScenes[index];
-    if (!scene) { /* ... */ }
+    const teaImg = document.getElementById('tea-in-hand');
+    if (!scene) return;
 
-    // Фон и персонаж (без изменений)
+    // Фон
     sceneBg.style.backgroundImage = `url(${scene.background})`;
+    
+    // Персонаж (Убираем Макса, если его не должно быть)
     if (scene.character) {
         sceneChar.src = scene.character;
         sceneChar.style.display = 'block';
     } else {
         sceneChar.style.display = 'none';
     }
-
-    const dialogueBox = document.querySelector('.dialogue-box');
-
-    if (scene.noText || !scene.text || scene.text.trim() === '') {
-        // НЕ скрываем блок, а делаем его минимальным
-        dialogueBox.style.display = 'block';
-        dialogueBox.style.height = '0';
-        dialogueBox.style.minHeight = '0';
-        dialogueBox.style.padding = '0';
-        dialogueBox.style.opacity = '0';
-        dialogueText.innerText = '';
-        if (speakerName) speakerName.innerText = '';
-
-        // Кнопки остаются видимыми!
-        nextBtn.style.display = 'block';
-        prevBtn.style.display = (index === 0) ? 'none' : 'block';
-
-        // Авто-переход, если указана длительность
-        if (scene.duration) {
-            setTimeout(() => {
-                tg.HapticFeedback.impactOccurred('light');
-                goToNextScene();
-            }, scene.duration);
-        }
+    if (scene.showTea) {
+        teaImg.style.display = 'block';
     } else {
-        // Обычная сцена с текстом — возвращаем нормальный вид
-        dialogueBox.style.display = 'block';
-        dialogueBox.style.height = '';           // или конкретное значение
-        dialogueBox.style.minHeight = '120px';
-        dialogueBox.style.padding = '16px 18px 58px 18px';
-        dialogueBox.style.opacity = '1';
-
-        if (speakerName) {
-            speakerName.innerText = scene.speaker?.trim() || '';
-        }
-        dialogueText.innerText = scene.text;
-        dialogueText.style.opacity = 0;
-        setTimeout(() => { dialogueText.style.opacity = 1; }, 150);
-
-        nextBtn.style.display = 'block';
-        prevBtn.style.display = (index === 0) ? 'none' : 'block';
+        teaImg.style.display = 'none';
     }
+    const dialogueBox = document.querySelector('.dialogue-box');
+    const optionsContainer = document.getElementById('options-container'); // Нужно добавить в HTML
+    dialogueBox.style.display = 'block';
+    dialogueBox.style.opacity = '1';
+    dialogueBox.style.minHeight = '140px'; 
+    dialogueBox.style.padding = '16px 18px 58px 18px';
+
+    // Устанавливаем имя: если его нет в массиве, будет пустая строка
+    // Но благодаря CSS (height и content), место под него сохранится
+    if (speakerName) {
+        speakerName.innerText = scene.speaker ? scene.speaker.trim() : "";
+    }
+
+    dialogueText.innerText = scene.text || "";
+    
+    // Кнопки всегда видимы
+    nextBtn.style.display = 'block';
+    prevBtn.style.display = (index === 0) ? 'none' : 'block';
+    // Логика отображения текста
+    if (scene.isChoice) {
+        // Если это выбор
+        nextBtn.style.display = 'none'; // Прячем кнопку "Вперед"
+        dialogueText.innerText = scene.text;
+        renderChoices(scene.choices);
+    } else {
+        // Обычная сцена
+        if (optionsContainer) optionsContainer.innerHTML = ''; 
+        nextBtn.style.display = 'block';
+        
+        dialogueBox.style.opacity = scene.noText ? '0.3' : '1'; 
+        dialogueText.innerText = scene.text || '';
+        if (speakerName) speakerName.innerText = scene.speaker || '';
+    }
+    
+    prevBtn.style.display = (index === 0) ? 'none' : 'block';
+}
+
+// Функция для отрисовки кнопок выбора
+function renderChoices(choices) {
+    const dialogueBox = document.querySelector('.dialogue-box');
+    let container = document.getElementById('choices-wrapper');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'choices-wrapper';
+        container.className = 'choice-container';
+        dialogueBox.appendChild(container);
+    }
+    container.innerHTML = '';
+
+    choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-button';
+        btn.innerText = choice.text;
+        btn.onclick = () => {
+            container.innerHTML = '';
+            currentChapterScenes.push(...choice.nextScenes); // Добавляем последствия в конец
+            goToNextScene();
+        };
+        container.appendChild(btn);
+    });
 }
 // ─── Навигация ───
 function goToNextScene() {
@@ -150,7 +176,8 @@ const chapter1Scenes = [
     {
         background: "materials/kitchen.jpg",
         character:  "materials/max.png",
-        noText: true,
+        showTea: true,
+        text: "У окна стоит молодой человек с чашкой чая.",
         
     },
     {
