@@ -12,7 +12,8 @@ const nextBtn        = document.getElementById('next-btn');
 const prevBtn        = document.getElementById('prev-btn');         // должна быть в HTML
 const sceneBg        = document.getElementById('scene-bg');
 const sceneChar      = document.getElementById('scene-character');
-
+const charLeft = document.getElementById('char-left');
+const charRight = document.getElementById('char-right');
 let currentSceneIndex = 0;
 let currentChapterScenes = [];  // будем заполнять при запуске главы
 
@@ -47,57 +48,58 @@ function startChapter(number) {
 function showScene(index) {
     const scene = currentChapterScenes[index];
     const teaImg = document.getElementById('tea-in-hand');
+    
     if (!scene) return;
 
-    // Фон
+    // 1. Фон
     sceneBg.style.backgroundImage = `url(${scene.background})`;
     
-    // Персонаж (Убираем Макса, если его не должно быть)
-    if (scene.character) {
-        sceneChar.src = scene.character;
-        sceneChar.style.display = 'block';
-    } else {
-        sceneChar.style.display = 'none';
-    }
-    if (scene.showTea) {
-        teaImg.style.display = 'block';
-    } else {
-        teaImg.style.display = 'none';
-    }
-    const dialogueBox = document.querySelector('.dialogue-box');
-    const optionsContainer = document.getElementById('options-container'); // Нужно добавить в HTML
-    dialogueBox.style.display = 'block';
-    dialogueBox.style.opacity = '1';
-    dialogueBox.style.minHeight = '140px'; 
-    dialogueBox.style.padding = '16px 18px 58px 18px';
+    // 2. Персонажи (сначала скрываем обоих, потом показываем нужных)
+    charLeft.style.display = 'none';
+    charRight.style.display = 'none';
 
-    // Устанавливаем имя: если его нет в массиве, будет пустая строка
-    // Но благодаря CSS (height и content), место под него сохранится
+    if (scene.characterLeft) {
+        charLeft.src = scene.characterLeft;
+        charLeft.style.display = 'block';
+    }
+
+    if (scene.characterRight) {
+        charRight.src = scene.characterRight;
+        charRight.style.display = 'block';
+    }
+
+    // 3. Чашка (теперь она не появится без Макса)
+    if (teaImg) {
+        teaImg.style.display = (scene.showTea && scene.characterLeft) ? 'block' : 'none';
+    }
+
+    // 4. Диалоговое окно и Текст
+    const dialogueBox = document.querySelector('.dialogue-box');
+    const optionsContainer = document.getElementById('options-container');
+    
+    dialogueBox.style.display = 'block';
+    dialogueBox.style.opacity = scene.noText ? '0.3' : '1';
+
+    // Установка имени и текста
     if (speakerName) {
         speakerName.innerText = scene.speaker ? scene.speaker.trim() : "";
     }
-
     dialogueText.innerText = scene.text || "";
     
-    // Кнопки всегда видимы
-    nextBtn.style.display = 'block';
-    prevBtn.style.display = (index === 0) ? 'none' : 'block';
-    // Логика отображения текста
+    // 5. Логика кнопок и выборов
     if (scene.isChoice) {
-        // Если это выбор
-        nextBtn.style.display = 'none'; // Прячем кнопку "Вперед"
-        dialogueText.innerText = scene.text;
+        nextBtn.style.display = 'none';
         renderChoices(scene.choices);
     } else {
-        // Обычная сцена
         if (optionsContainer) optionsContainer.innerHTML = ''; 
-        nextBtn.style.display = 'block';
+        // Если есть choices-wrapper (из твоей функции renderChoices), чистим и его
+        const wrapper = document.getElementById('choices-wrapper');
+        if (wrapper) wrapper.innerHTML = '';
         
-        dialogueBox.style.opacity = scene.noText ? '0.3' : '1'; 
-        dialogueText.innerText = scene.text || '';
-        if (speakerName) speakerName.innerText = scene.speaker || '';
+        nextBtn.style.display = 'block';
     }
     
+    // Кнопка "Назад"
     prevBtn.style.display = (index === 0) ? 'none' : 'block';
 }
 
@@ -158,13 +160,13 @@ if (prevBtn) {
 const chapter1Scenes = [
     {
         background: "materials/vuz.jpg",
-        character:  "materials/Alice_smile.png",
+        characterLeft:  "materials/Alice_smile.png",
         speaker: "Алиса",
         text: "Привет! Меня зовут Алиса, мне 18, и завтра мой первый учебный день в университете."
     },
     {
         background: "materials/vuz.jpg",
-        character:  "materials/Alice_smile.png",
+        characterLeft:  "materials/Alice_smile.png",
         speaker: "Алиса",
         text: "Волнуюсь ли я? Еще как, но, уверена, меня ждет веселье и, может даже, романтика!"
     },
@@ -175,14 +177,15 @@ const chapter1Scenes = [
     },
     {
         background: "materials/kitchen.jpg",
-        character:  "materials/max.png",
+        characterLeft:  "materials/max.png",
         showTea: true,
         text: "У окна стоит молодой человек с чашкой чая.",
         
     },
     {
         background: "materials/kitchen.jpg",
-        character:  "materials/max.png",
+        characterLeft:  "materials/max.png",
+        characterRight: "materials/Alice_smile.png",
         speaker: "Алиса",
         text: "Привет."
     }
