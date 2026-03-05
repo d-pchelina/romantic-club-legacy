@@ -144,7 +144,6 @@ const chapter1Scenes = [
     },
     {
         background: "materials/kitchen.jpg",
-        character:  "materials/max.png",
         speaker: "Алиса",
         text: "А пока я пытаюсь прорваться сквозь толпу студентов в общежитии на кухню. Здесь на удивление пусто."
     },

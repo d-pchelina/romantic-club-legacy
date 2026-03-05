@@ -254,6 +254,11 @@
     font-family: 'Montserrat', system-ui, sans-serif;
     font-size: clamp(15px, 4vw, 17px);              /* чуть меньше для мобильных */
     line-height: 1.5;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
     color: #f8e7ef;
     margin: 0 0 12px 0;
     text-shadow: 0 1px 3px #0009;
@@ -348,4 +353,32 @@
         max-width: 82vw;            /* или 88vw, если персонаж очень узкий */
         padding-left: 0.25vw;
     }
+}
+.choice-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.choice-button {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.choice-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Убеждаемся, что кнопки навигации всегда поверх всего */
+.prev-button, .next-button {
+    z-index: 20 !important;
+    display: flex !important; /* Кнопки будут видны всегда */
 }
