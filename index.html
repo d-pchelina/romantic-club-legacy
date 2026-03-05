@@ -42,9 +42,8 @@
 </div>
 <div id="scene-screen" style="display: none;">
     <div class="scene-background" id="scene-bg"></div>
-    <img id="char-left" class="scene-character char-left" src="" alt="Персонаж слева">
-    <img id="char-right" class="scene-character char-right" src="" alt="Персонаж справа">
-    <img id="tea-in-hand" src="materials/lv_0_20260305163931.png" class="tea-style" style="display: none; position: absolute; z-index: 4; pointer-events: none;">
+    <img id="main-character" class="scene-character" src="" alt="Персонаж">
+    <div id="choice-container" class="choice-container" style="display: none;"></div>
     <div class="dialogue-box">
         <div class="speaker-name" id="speaker-name"></div>  
         <div id="dialogue-text" class="dialogue-text"></div>
@@ -52,6 +51,7 @@
         <button id="prev-btn" class="prev-button">←</button>  
         <button id="next-btn" class="next-button">→</button>
     </div>
+    
 </div>
 
     <script src="script.js"></script>

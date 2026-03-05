@@ -2,192 +2,217 @@ const tg = window.Telegram.WebApp;
 tg.ready();
 tg.expand();
 
-const startScreen    = document.getElementById('start-screen');
-const chaptersScreen = document.getElementById('chapters-screen');
-const sceneScreen    = document.getElementById('scene-screen');
-const mainButton     = document.getElementById('main-button');
-const dialogueText   = document.getElementById('dialogue-text');
-const speakerName    = document.getElementById('speaker-name');     // если используешь
-const nextBtn        = document.getElementById('next-btn');
-const prevBtn        = document.getElementById('prev-btn');         // должна быть в HTML
-const sceneBg        = document.getElementById('scene-bg');
-const sceneChar      = document.getElementById('scene-character');
-const charLeft = document.getElementById('char-left');
-const charRight = document.getElementById('char-right');
-let currentSceneIndex = 0;
-let currentChapterScenes = [];  // будем заполнять при запуске главы
+// Элементы экрана
+const startScreen     = document.getElementById('start-screen');
+const chaptersScreen  = document.getElementById('chapters-screen');
+const sceneScreen     = document.getElementById('scene-screen');
 
-// Переход от стартового экрана к выбору глав
+// Элементы сцены
+const mainButton      = document.getElementById('main-button');
+const dialogueText    = document.getElementById('dialogue-text');
+const speakerName     = document.getElementById('speaker-name');
+const nextBtn         = document.getElementById('next-btn');
+const prevBtn         = document.getElementById('prev-btn');
+const sceneBg         = document.getElementById('scene-bg');
+const mainChar        = document.getElementById('main-character');
+const choiceContainer = document.getElementById('choice-container');
+
+let currentSceneIndex = 0;
+let playerStats = { ambition: 0, shy: 0, maxRel: 0 };
+
+const CHARACTERS = {
+    MAX: 'materials/max.png',
+    ALICE: 'materials/Alice_smile.png'
+};
+
+const BACKGROUNDS = {
+    KITCHEN: 'materials/kitchen.jpg',
+    STREET: 'materials/vuz.jpg',
+    BEDROOM: 'materials/bedroom.jpg' 
+};
+
+// Сценарий 
+const scenario = [
+    {
+        speaker: "Алиса",
+        text: "Привет! Меня зовут Алиса, мне 18, и завтра мой первый учебный день в университете. Волнуюсь ли я? Еще как, но, уверена, меня ждет веселье и, может даже, романтика!",
+        background: BACKGROUNDS.STREET,
+        char: CHARACTERS.ALICE,
+        
+    },
+    {
+        speaker: "Алиса",
+        text: "А пока я пытаюсь прорваться сквозь толпу студентов в общежитии на кухню. Здесь на удивление пусто.",
+        background: BACKGROUNDS.KITCHEN,
+        char: CHARACTERS.ALICE,
+        
+    },
+    {
+        speaker: "",
+        text: "У окна стоит молодой человек с чашкой чая.",
+        background: BACKGROUNDS.KITCHEN,
+        char: CHARACTERS.MAX
+    },
+    
+    {
+        speaker: "Алиса",
+        text: "Привет, — тихо поздоровалась Алиса.",
+        background: BACKGROUNDS.KITCHEN,
+        char: CHARACTERS.ALICE,
+        
+    },
+    {
+        speaker: "Максим",
+        text: "Привет. Меня зовут Максим. Я с первого курса бизнес-чего-нибудь. А ты?",
+        char: CHARACTERS.MAX
+    },
+    {
+        speaker: "Алиса",
+        text: "Я тоже с бизнес-чего-нибудь. Получается, мы в одной группе. ",
+        char: CHARACTERS.ALICE
+    },
+    
+    {
+        speaker: "",
+        text: "Алиса наливает себе чай, садится за стол рядом.",
+        char: null
+    },
+    
+    {
+        speaker: "Максим",
+        text: "Чем занимаешься вообще? Помимо учебы. — спрашивает Максим.",
+        char: CHARACTERS.MAX
+    },
+    {
+        speaker: "Алиса",
+        text: "Танцую с детства. А ты? ",
+        char: CHARACTERS.ALICE
+    },
+    
+    {
+        speaker: "Максим",
+        text: "О, я тоже люблю танцевать. Специально сюда поступил, слышал, у них крутая команда и серьезные конкурсы. Ближайшие — в ноябре. Пойдешь?",
+        char: CHARACTERS.MAX
+    },
+    {
+        isChoice: true, 
+        text: "Алиса:",
+        char: CHARACTERS.ALICE,
+        choices: [
+            { text: "Конечно, звучит круто!", nextIdx: 11, stats: { ambition: 1 } },
+            { text: "Не знаю, надо подумать...", nextIdx: 12, stats: { shy: 1 } },
+            { text: "Только если ты пойдешь со мной", nextIdx: 13, stats: { maxRel: -1 } }
+        ]
+    },
+    // Ветки ответов Макса
+    { speaker: "Максим", text: "— И я о том же, пойдем вместе! Через пару дней собрание клуба. ", char: CHARACTERS.MAX, nextIdx: 14 },
+    { speaker: "Максим", text: "— Ты подумай, но не слишком долго. Через пару дней собрание клуба. ", char: CHARACTERS.MAX, nextIdx: 14 },
+    { speaker: "Максим", text: "— Хах, ну да, я и так собирался.", char: CHARACTERS.MAX, nextIdx: 14 },
+    // Финал главы
+    {
+        speaker: "",
+        text: "Макс допил чай и ушел вместе с кружкой в комнату.",
+        char: null,
+        background: BACKGROUNDS.KITCHEN
+    }
+];
+
+// Управление экранами
 mainButton.addEventListener('click', () => {
     tg.HapticFeedback.impactOccurred('medium');
     startScreen.style.display = 'none';
     chaptersScreen.style.display = 'flex';
 });
 
-// Функция запуска главы
 function startChapter(number) {
     if (number !== 1) {
-        tg.showAlert("Пока только первая глава готова 😘");
+        tg.showAlert("Эта глава еще в пути 😘");
         return;
     }
-
-    tg.HapticFeedback.notificationOccurred('success');
-
-    // Прячем меню глав, показываем сцену
     chaptersScreen.style.display = 'none';
     sceneScreen.style.display = 'flex';
-
-    // Устанавливаем массив сцен для текущей главы
-    currentChapterScenes = chapter1Scenes;
     currentSceneIndex = 0;
-
     showScene(currentSceneIndex);
 }
 
-// Главная функция отображения сцены
 function showScene(index) {
-    const scene = currentChapterScenes[index];
-    const teaImg = document.getElementById('tea-in-hand');
-    
+    const scene = scenario[index];
     if (!scene) return;
 
-    // 1. Фон
-    sceneBg.style.backgroundImage = `url(${scene.background})`;
-    
-    // 2. Персонажи (сначала скрываем обоих, потом показываем нужных)
-    charLeft.style.display = 'none';
-    charRight.style.display = 'none';
+    // Смена фона и персонажа
+    if (scene.background) sceneBg.style.backgroundImage = `url(${scene.background})`;
+    mainChar.src = scene.char || "";
+    mainChar.style.opacity = scene.char ? "1" : "0";
 
-    if (scene.characterLeft) {
-        charLeft.src = scene.characterLeft;
-        charLeft.style.display = 'block';
-    }
-
-    if (scene.characterRight) {
-        charRight.src = scene.characterRight;
-        charRight.style.display = 'block';
-    }
-
-    // 3. Чашка (теперь она не появится без Макса)
-    if (teaImg) {
-        teaImg.style.display = (scene.showTea && scene.characterLeft) ? 'block' : 'none';
-    }
-
-    // 4. Диалоговое окно и Текст
-    const dialogueBox = document.querySelector('.dialogue-box');
-    const optionsContainer = document.getElementById('options-container');
-    
-    dialogueBox.style.display = 'block';
-    dialogueBox.style.opacity = scene.noText ? '0.3' : '1';
-
-    // Установка имени и текста
-    if (speakerName) {
-        speakerName.innerText = scene.speaker ? scene.speaker.trim() : "";
-    }
+    // Текст
+    speakerName.innerText = scene.speaker || "";
     dialogueText.innerText = scene.text || "";
-    
-    // 5. Логика кнопок и выборов
+
+    // Логика выбора
     if (scene.isChoice) {
+        // Прячем стрелку "вперед" и показываем кнопки выбора
         nextBtn.style.display = 'none';
+        choiceContainer.style.display = 'flex'; // ВКЛЮЧАЕМ КОНТЕЙНЕР
         renderChoices(scene.choices);
     } else {
-        if (optionsContainer) optionsContainer.innerHTML = ''; 
-        // Если есть choices-wrapper (из твоей функции renderChoices), чистим и его
-        const wrapper = document.getElementById('choices-wrapper');
-        if (wrapper) wrapper.innerHTML = '';
-        
+        // Показываем стрелку "вперед" и прячем кнопки выбора
         nextBtn.style.display = 'block';
+        choiceContainer.style.display = 'none'; // ВЫКЛЮЧАЕМ КОНТЕЙНЕР
     }
-    
-    // Кнопка "Назад"
-    prevBtn.style.display = (index === 0) ? 'none' : 'block';
 }
 
-// Функция для отрисовки кнопок выбора
 function renderChoices(choices) {
-    const dialogueBox = document.querySelector('.dialogue-box');
-    let container = document.getElementById('choices-wrapper');
-    if (!container) {
-        container = document.createElement('div');
-        container.id = 'choices-wrapper';
-        container.className = 'choice-container';
-        dialogueBox.appendChild(container);
-    }
-    container.innerHTML = '';
+    choiceContainer.innerHTML = '';
+    choiceContainer.style.display = 'flex';
 
     choices.forEach(choice => {
         const btn = document.createElement('button');
         btn.className = 'choice-button';
         btn.innerText = choice.text;
+        
         btn.onclick = () => {
-            container.innerHTML = '';
-            currentChapterScenes.push(...choice.nextScenes); // Добавляем последствия в конец
-            goToNextScene();
+            // 1. Начисляем статы
+            if (choice.stats) {
+                for (let s in choice.stats) playerStats[s] += choice.stats[s];
+            }
+            
+            // 2. ВАЖНО: Обновляем глобальный индекс на тот, что указан в выборе
+            currentSceneIndex = choice.nextIdx; 
+            
+            // 3. Скрываем контейнер выбора сразу после нажатия
+            choiceContainer.style.display = 'none';
+            
+            // 4. Запускаем следующую сцену
+            showScene(currentSceneIndex);
         };
-        container.appendChild(btn);
+        choiceContainer.appendChild(btn);
     });
 }
-// ─── Навигация ───
-function goToNextScene() {
-    currentSceneIndex++;
-    showScene(currentSceneIndex);
-}
 
-function goToPreviousScene() {
+nextBtn.addEventListener('click', () => {
+    const currentScene = scenario[currentSceneIndex];
+    
+    // Если текущая сцена — выбор, кнопка вообще не должна ничего делать
+    if (currentScene.isChoice) return; 
+
+    if (currentScene.nextIdx !== undefined) {
+        currentSceneIndex = currentScene.nextIdx;
+    } else {
+        currentSceneIndex++;
+    }
+    
+    if (currentSceneIndex < scenario.length) {
+        showScene(currentSceneIndex);
+    } else {
+        tg.showAlert("Глава окончена!");
+        sceneScreen.style.display = 'none';
+        chaptersScreen.style.display = 'flex';
+    }
+});
+
+prevBtn.addEventListener('click', () => {
     if (currentSceneIndex > 0) {
         currentSceneIndex--;
         showScene(currentSceneIndex);
-    } else {
-        // опционально: лёгкая вибрация, что дальше нельзя
-        tg.HapticFeedback.notificationOccurred('warning');
     }
-}
-
-// Привязываем кнопки
-nextBtn.addEventListener('click', () => {
-    tg.HapticFeedback.impactOccurred('light');
-    goToNextScene();
 });
-
-if (prevBtn) {
-    prevBtn.addEventListener('click', () => {
-        tg.HapticFeedback.impactOccurred('light');
-        goToPreviousScene();
-    });
-}
-
-// Массив сцен (оставил твой, только убрал лишние повторы)
-const chapter1Scenes = [
-    {
-        background: "materials/vuz.jpg",
-        characterLeft:  "materials/Alice_smile.png",
-        speaker: "Алиса",
-        text: "Привет! Меня зовут Алиса, мне 18, и завтра мой первый учебный день в университете."
-    },
-    {
-        background: "materials/vuz.jpg",
-        characterLeft:  "materials/Alice_smile.png",
-        speaker: "Алиса",
-        text: "Волнуюсь ли я? Еще как, но, уверена, меня ждет веселье и, может даже, романтика!"
-    },
-    {
-        background: "materials/kitchen.jpg",
-        speaker: "Алиса",
-        text: "А пока я пытаюсь прорваться сквозь толпу студентов в общежитии на кухню. Здесь на удивление пусто."
-    },
-    {
-        background: "materials/kitchen.jpg",
-        characterLeft:  "materials/max.png",
-        showTea: true,
-        text: "У окна стоит молодой человек с чашкой чая.",
-        
-    },
-    {
-        background: "materials/kitchen.jpg",
-        characterLeft:  "materials/max.png",
-        characterRight: "materials/Alice_smile.png",
-        speaker: "Алиса",
-        text: "Привет."
-    }
-    // ← сюда можно добавить ещё сцены
-];

@@ -212,106 +212,36 @@
    БЛОК ПЕРСОНАЖЕЙ (ПОЛНЫЙ РОСТ, БЕЗ ОБРЕЗАНИЯ)
 ============================================================ */
 
-/* 1. Общие настройки для обоих персонажей */
+/* --- ПЕРСОНАЖ (ОДИН, ПО ЦЕНТРУ) --- */
 .scene-character {
     position: absolute;
     bottom: 0;
+    left: 50%; /* Ставим ровно по центру */
+    transform: translateX(-50%); /* Центрируем по оси X */
     
-    /* Устанавливаем высоту почти на весь экран (как на рис. 2) */
-    height: 98vh; 
-    
-    /* Ширина подстраивается автоматически, сохраняя пропорции */
+    height: 95vh; /* Почти во весь рост */
     width: auto;
-    
-    /* Важно: object-fit: contain сохраняет картинку целой */
     object-fit: contain;
-    
-    /* Убираем любое обрезание */
-    overflow: visible !important;
     
     z-index: 3;
     pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-/* 2. Макс стоит слева (Глубина: z-index 3) */
-.char-left {
-    left: 0; /* Прижимаем к левому краю контейнера */
-    object-position: left bottom;
-    z-index: 3; /* Макс находится "дальше" */
-    transform: scaleX(1); /* Обычное отражение */
+/* Эффект легкого приближения, когда персонаж говорит что-то важное */
+.char-zoom {
+    transform: translateX(-50%) scale(1.05);
 }
 
-/* 3. Алиса стоит справа (Глубина: z-index 4 - поверх Макса) */
-.char-right {
-    right: 0; /* Прижимаем к правому краю контейнера */
-    left: auto; /* Сбрасываем left, чтобы не мешал */
-    object-position: right bottom;
-    
-    /* Алиса находится "ближе" к нам и перекрывает Макса */
-    z-index: 4; 
-    
-    /* Отражаем Алису зеркально, чтобы она смотрела на Макса */
-    transform: scaleX(-1); 
-}
 
-/* ============================================================
-   ЧАШКА ЧАЯ (ПРИВЯЗАНА К МАКСУ)
-============================================================ */
-#tea-in-hand {
-    position: absolute;
-    height: auto;
-    
-    /* Подбираем размер чашки */
-    width: 45px; 
-    
-    /* Позиционируем относительно левого края, где Макс */
-    left: 20vw; 
-    
-    /* Поднимаем на уровень его руки */
-    bottom: 50%; 
-    
-    /* Чашка должна быть поверх Макса */
-    z-index: 5; 
-    
-    /* Немного наклоним для естественности */
-    transform: rotate(-10deg);
-    
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-}
-
-/* ============================================================
-   АДАПТИВНОСТЬ ДЛЯ ТЕЛЕФОНОВ (ПОРТРЕТ)
-============================================================ */
-
+/* Адаптивность для мобильных */
 @media (max-width: 820px) {
     .scene-character {
-        /* На мобильных персонажи в полный рост до самого верха */
-        height: 100vh !important;
-        max-height: 100vh;
-        
-        /* Ограничиваем максимальную ширину, чтобы они не были шире экрана */
-        max-width: 90vw;
+        height: 100vh;
+        max-width: 95vw;
     }
-    
-    /* На мобильных Макса сдвигаем чуть левее, чтобы освободить место */
-    .char-left {
-        left: -5vw; 
-    }
-
-    /* Алису сдвигаем чуть правее, сохраняя наложение */
-    .char-right {
-        right: -5vw;
-    }
-
-    /* Корректируем положение чашки под новое положение Макса */
-    #tea-in-hand {
-        left: 22vw; 
-        width: 38px;
-    }
+  
 }
-
 
 
 
@@ -426,30 +356,43 @@
 
 
 .choice-container {
-    display: flex;
+    display: none; /* JS поменяет это на flex когда нужно */
     flex-direction: column;
-    gap: 10px;
-    margin-top: 10px;
-    width: 100%;
+    gap: 15px;
+    position: absolute;
+    bottom: 180px; /* Высота над диалоговым окном */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    max-width: 320px;
+    z-index: 999; /* Самый высокий слой */
 }
 
 .choice-button {
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    padding: 10px;
-    border-radius: 10px;
+    background: white;
+    color: #f13a77;
+    border: 2px solid #f13a77;
+    padding: 12px 20px;
+    border-radius: 25px;
     font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
-    transition: 0.2s;
+    box-shadow: 0 4px 15px rgba(241, 58, 119, 0.3);
+    transition: all 0.2s ease;
 }
 
+.choice-button:active {
+    transform: scale(0.95);
+    background: #f13a77;
+    color: white;
+}
 .choice-button:hover {
     background: rgba(255, 255, 255, 0.3);
 }
 
 /* Убеждаемся, что кнопки навигации всегда поверх всего */
 .prev-button, .next-button {
-    z-index: 20 !important;
-    display: flex !important; /* Кнопки будут видны всегда */
+    z-index: 20 ;
+    display: flex; /* Кнопки будут видны всегда */
 }
