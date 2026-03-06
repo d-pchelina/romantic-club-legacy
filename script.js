@@ -92,8 +92,8 @@ const scenario = [
         text: "Алиса:",
         char: CHARACTERS.ALICE,
         choices: [
-            { text: "Жаль, что не ты.", nextIdx: 11, stats: { ambition: 1 } },
-            { text: "Промолчать.", nextIdx: 17, stats: { shy: 1 } },
+            { text: "Жаль, что не ты.", nextIdx: 9, stats: { ambition: 1 } },
+            { text: "Промолчать.", nextIdx: 15, stats: { shy: 1 } },
         ]
     },
     {
@@ -174,15 +174,15 @@ const scenario = [
         text: "Алиса:",
         char: CHARACTERS.ALICE,
         choices: [
-            { text: "Конечно, звучит круто!", nextIdx: 26, stats: { ambition: 1 } },
-            { text: "Не знаю, надо подумать...", nextIdx: 27, stats: { shy: 1 } },
-            { text: "Только если ты будешь моим личным телохранителем от злых фанаток! Чур, я твоя главная фанатка! Мяу!", nextIdx: 27, stats: { maxRel: -1 } }
+            { text: "Конечно, звучит круто!", nextIdx: 24, stats: { ambition: 1 } },
+            { text: "Не знаю, надо подумать...", nextIdx: 25, stats: { shy: 1 } },
+            { text: "Только если ты будешь моим личным телохранителем от злых фанаток! Чур, я твоя главная фанатка! Мяу!", nextIdx: 26, stats: { maxRel: -1 } }
         ]
     },
     // Ветки ответов Макса
-    { speaker: "Максим", text: "— И я о том же, пойдем вместе! Через пару дней собрание клуба. ", char: CHARACTERS.MAX, nextIdx: 28 },
-    { speaker: "Максим", text: "— Ты подумай, но не слишком долго. Через пару дней собрание клуба. ", char: CHARACTERS.MAX, nextIdx: 28 },
-    { speaker: "Максим", text: "— Окей… я просто про танцы спросил. Ты… интересная. Наверное", char: CHARACTERS.MAX_BRUH, nextIdx: 28 },
+    { speaker: "Максим", text: "— И я о том же, пойдем вместе! Через пару дней собрание клуба. ", char: CHARACTERS.MAX, nextIdx: 27 },
+    { speaker: "Максим", text: "— Ты подумай, но не слишком долго. Через пару дней собрание клуба. ", char: CHARACTERS.MAX, nextIdx: 27 },
+    { speaker: "Максим", text: "— Окей… я просто про танцы спросил. Ты… интересная. Наверное", char: CHARACTERS.MAX_BRUH, nextIdx: 27 },
     // Финал главы
     {
         speaker: "",
