@@ -23,7 +23,10 @@ let playerStats = { ambition: 0, shy: 0, maxRel: 0 };
 const CHARACTERS = {
     MAX: 'materials/max.png',
     MAX_CUP: 'materials/max_cup.png',
-    ALICE: 'materials/Alice_smile.png'
+    MAX_BRUH: 'materials/max_bruh.png',
+    MAX_SCARY: 'materials/max_scary.png',
+    ALICE: 'materials/Alice_smile.png',
+    ALICE_HORNI: 'materials/Alice_horni.png'
 };
 
 const BACKGROUNDS = {
@@ -72,7 +75,7 @@ const scenario = [
         speaker: "",
         text: "Молодой человек дергается, задевая чашку на столе. Чай разливается.",
         background: BACKGROUNDS.KITCHEN,
-        char: CHARACTERS.MAX
+        char: CHARACTERS.MAX_SCARY
     },
     {
         speaker: "???",
@@ -96,12 +99,12 @@ const scenario = [
     {
         speaker: "???",
         text: "Что?",
-        char: CHARACTERS.MAX
+        char: CHARACTERS.MAX_BRUH
     },
     {
         speaker: "Алиса",
         text: "Что? Я Алиса, говорю.",
-        char: CHARACTERS.ALICE
+        char: CHARACTERS.ALICE_HORNI
     },
     {
         speaker: "Максим",
@@ -116,7 +119,7 @@ const scenario = [
     {
         speaker: "Алиса",
         text: "*Его ладонь такая мужественная… Наверное, он много печатает на клавиатуре.*",
-        char: CHARACTERS.ALICE
+        char: CHARACTERS.ALICE_HORNI
     },
     {
         speaker: "Максим",
@@ -179,7 +182,7 @@ const scenario = [
     // Ветки ответов Макса
     { speaker: "Максим", text: "— И я о том же, пойдем вместе! Через пару дней собрание клуба. ", char: CHARACTERS.MAX, nextIdx: 28 },
     { speaker: "Максим", text: "— Ты подумай, но не слишком долго. Через пару дней собрание клуба. ", char: CHARACTERS.MAX, nextIdx: 28 },
-    { speaker: "Максим", text: "— Окей… я просто про танцы спросил. Ты… интересная. Наверное", char: CHARACTERS.MAX, nextIdx: 28 },
+    { speaker: "Максим", text: "— Окей… я просто про танцы спросил. Ты… интересная. Наверное", char: CHARACTERS.MAX_BRUH, nextIdx: 28 },
     // Финал главы
     {
         speaker: "",
