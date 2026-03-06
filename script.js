@@ -22,6 +22,7 @@ let playerStats = { ambition: 0, shy: 0, maxRel: 0 };
 
 const CHARACTERS = {
     MAX: 'materials/max.png',
+    MAX_CUP: 'materials/max_cup.png',
     ALICE: 'materials/Alice_smile.png'
 };
 
@@ -51,28 +52,14 @@ const scenario = [
         speaker: "Алиса",
         text: "А пока я пытаюсь прорваться сквозь толпу студентов в общежитии на кухню. Здесь на удивление пусто.",
         background: BACKGROUNDS.KITCHEN,
-        char: null,
-        
-    },
-    {
-        speaker: "Алиса",
-        text: "У окна стоит молодой человек, на краю стола чашка.",
-        background: BACKGROUNDS.KITCHEN,
-        char: null,
-        
-    },
-    {
-        speaker: "Алиса",
-        text: "А пока я пытаюсь прорваться сквозь толпу студентов в общежитии на кухню. Здесь на удивление пусто.",
-        background: BACKGROUNDS.KITCHEN,
-        char: CHARACTERS.ALICE,
+        char: CHARACTERS.MAX,
         
     },
     {
         speaker: "",
         text: "У окна стоит молодой человек с чашкой чая.",
         background: BACKGROUNDS.KITCHEN,
-        char: CHARACTERS.MAX
+        char: CHARACTERS.MAX_CUP
     },
     {
         speaker: "Алиса",
@@ -164,27 +151,16 @@ const scenario = [
         text: "Я тоже. Получается, мы одногруппники",
         char: CHARACTERS.ALICE
     },
-    
-
-
-    
-    {
-        speaker: "",
-        text: "Алиса наливает себе чай, садится за стол рядом.",
-        char: null
-    },
-    
     {
         speaker: "Максим",
-        text: "Чем занимаешься вообще? Помимо учебы. — спрашивает Максим.",
+        text: "Чем по жизни занимаешься? Кроме бизнеса, так для души?",
         char: CHARACTERS.MAX
     },
     {
         speaker: "Алиса",
-        text: "Танцую с детства. А ты? ",
+        text: "Танцую с детства. А ты?",
         char: CHARACTERS.ALICE
     },
-    
     {
         speaker: "Максим",
         text: "О, я тоже люблю танцевать. Специально сюда поступил, слышал, у них крутая команда и серьезные конкурсы. Ближайшие — в ноябре. Пойдешь?",
@@ -195,15 +171,15 @@ const scenario = [
         text: "Алиса:",
         char: CHARACTERS.ALICE,
         choices: [
-            { text: "Конечно, звучит круто!", nextIdx: 11, stats: { ambition: 1 } },
-            { text: "Не знаю, надо подумать...", nextIdx: 12, stats: { shy: 1 } },
-            { text: "Только если ты пойдешь со мной", nextIdx: 13, stats: { maxRel: -1 } }
+            { text: "Конечно, звучит круто!", nextIdx: 26, stats: { ambition: 1 } },
+            { text: "Не знаю, надо подумать...", nextIdx: 27, stats: { shy: 1 } },
+            { text: "Только если ты будешь моим личным телохранителем от злых фанаток! Чур, я твоя главная фанатка! Мяу!", nextIdx: 27, stats: { maxRel: -1 } }
         ]
     },
     // Ветки ответов Макса
-    { speaker: "Максим", text: "— И я о том же, пойдем вместе! Через пару дней собрание клуба. ", char: CHARACTERS.MAX, nextIdx: 14 },
-    { speaker: "Максим", text: "— Ты подумай, но не слишком долго. Через пару дней собрание клуба. ", char: CHARACTERS.MAX, nextIdx: 14 },
-    { speaker: "Максим", text: "— Хах, ну да, я и так собирался.", char: CHARACTERS.MAX, nextIdx: 14 },
+    { speaker: "Максим", text: "— И я о том же, пойдем вместе! Через пару дней собрание клуба. ", char: CHARACTERS.MAX, nextIdx: 28 },
+    { speaker: "Максим", text: "— Ты подумай, но не слишком долго. Через пару дней собрание клуба. ", char: CHARACTERS.MAX, nextIdx: 28 },
+    { speaker: "Максим", text: "— Окей… я просто про танцы спросил. Ты… интересная. Наверное", char: CHARACTERS.MAX, nextIdx: 28 },
     // Финал главы
     {
         speaker: "",
