@@ -32,7 +32,7 @@ const CHARACTERS = {
 const BACKGROUNDS = {
     KITCHEN: 'materials/kitchen.jpg',
     STREET: 'materials/vuz.jpg',
-    BEDROOM: 'materials/bedroom.jpg' 
+    BEDROOM: 'materials/bedroom.png',
 };
 
 // Сценарий 
@@ -189,7 +189,19 @@ const scenario = [
         text: "Макс допил чай и ушел вместе с кружкой в комнату.",
         char: null,
         background: BACKGROUNDS.KITCHEN
-    }
+    },
+    /*{ background: BACKGROUNDS.BEDROOM,speaker: "Алиса", text: "Ух, конкурс. А где конкурс, там и кубок, и внимание. Но и ребята в клубе сильные... Ничего, стану лучшей. Скорей бы.", char: CHARACTERS.ALICE, nextIdx: 28 },
+    { background: BACKGROUNDS.BEDROOM,speaker: "Алиса", text: "Команда танцоров сильная, значит, и пробы сложные. Пройду ли я?", char: CHARACTERS.ALICE, nextIdx: 28  },
+    { background: BACKGROUNDS.BEDROOM,speaker: "Алиса", text: "Какая я же я красотка! Ну, Алиса, ну львица-тигрица. А сколько красивых мальчиков в танцевальном клубе...", char: CHARACTERS.ALICE, nextIdx: 28  },*/
+    {   isChoice: true, 
+        background: BACKGROUNDS.BEDROOM,
+        text: "Алиса",
+        char: CHARACTERS.ALICE,
+        choices: [
+            { text: "Ух, конкурс. А где конкурс, там и кубок, и внимание. Но и ребята в клубе сильные... Ничего, стану лучшей. Скорей бы.", nextIdx: 28, stats: { ambition: 1 } },
+            { text: "Команда танцоров сильная, значит, и пробы сложные. Пройду ли я?", nextIdx: 29, stats: { shy: 1 } },
+            { text: "Какая я же я красотка! Ну, Алиса, ну львица-тигрица. А сколько красивых мальчиков в танцевальном клубе...", nextIdx: 30}
+        ]}
 ];
 
 // Управление экранами
