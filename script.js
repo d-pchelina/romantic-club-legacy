@@ -55,7 +55,7 @@ const scenario = [
         speaker: "Алиса",
         text: "А пока я пытаюсь прорваться сквозь толпу студентов в общежитии на кухню. Здесь на удивление пусто.",
         background: BACKGROUNDS.KITCHEN,
-        char: CHARACTERS.MAX,
+        char: null,
         
     },
     {
