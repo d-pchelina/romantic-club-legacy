@@ -35,9 +35,30 @@ const BACKGROUNDS = {
 const scenario = [
     {
         speaker: "Алиса",
-        text: "Привет! Меня зовут Алиса, мне 18, и завтра мой первый учебный день в университете. Волнуюсь ли я? Еще как, но, уверена, меня ждет веселье и, может даже, романтика!",
+        text: "Привет! Меня зовут Алиса, мне 18, и завтра мой первый учебный день в университете мечты.",
         background: BACKGROUNDS.STREET,
         char: CHARACTERS.ALICE,
+        
+    },
+    {
+        speaker: "Алиса",
+        text: "Волнуюсь ли я? Еще как, но, уверена, меня впереди меня ждут лучшие 4 года моей жизни. И может быть я даже найду здесь любовь.",
+        background: BACKGROUNDS.STREET,
+        char: CHARACTERS.ALICE,
+        
+    },
+    {
+        speaker: "Алиса",
+        text: "А пока я пытаюсь прорваться сквозь толпу студентов в общежитии на кухню. Здесь на удивление пусто.",
+        background: BACKGROUNDS.KITCHEN,
+        char: null,
+        
+    },
+    {
+        speaker: "Алиса",
+        text: "У окна стоит молодой человек, на краю стола чашка.",
+        background: BACKGROUNDS.KITCHEN,
+        char: null,
         
     },
     {
@@ -53,24 +74,99 @@ const scenario = [
         background: BACKGROUNDS.KITCHEN,
         char: CHARACTERS.MAX
     },
-    
     {
         speaker: "Алиса",
-        text: "Привет, — тихо поздоровалась Алиса.",
+        text: "Привет, радуешься дождю?",
         background: BACKGROUNDS.KITCHEN,
         char: CHARACTERS.ALICE,
         
     },
     {
-        speaker: "Максим",
-        text: "Привет. Меня зовут Максим. Я с первого курса бизнес-чего-нибудь. А ты?",
+        speaker: "",
+        text: "Молодой человек дергается, задевая чашку на столе. Чай разливается.",
+        background: BACKGROUNDS.KITCHEN,
+        char: CHARACTERS.MAX
+    },
+    {
+        speaker: "???",
+        text: "Ой, привет, не заметил тебя.",
+        char: CHARACTERS.MAX
+    },
+    {
+        speaker: "???",
+        text: "Блин, чай теперь на столе...",
+        char: CHARACTERS.MAX
+    },
+    {
+        isChoice: true, 
+        text: "Алиса:",
+        char: CHARACTERS.ALICE,
+        choices: [
+            { text: "Жаль, что не ты.", nextIdx: 11, stats: { ambition: 1 } },
+            { text: "Промолчать.", nextIdx: 17, stats: { shy: 1 } },
+        ]
+    },
+    {
+        speaker: "???",
+        text: "Что?",
         char: CHARACTERS.MAX
     },
     {
         speaker: "Алиса",
-        text: "Я тоже с бизнес-чего-нибудь. Получается, мы в одной группе. ",
+        text: "Что? Я Алиса, говорю.",
         char: CHARACTERS.ALICE
     },
+    {
+        speaker: "Максим",
+        text: "Макс.",
+        char: CHARACTERS.MAX
+    },
+    {
+        speaker: "",
+        text: "Макс протягивает руку в приветственном жесте.",
+        char: CHARACTERS.MAX
+    },
+    {
+        speaker: "Алиса",
+        text: "*Его ладонь такая мужественная… Наверное, он много печатает на клавиатуре.*",
+        char: CHARACTERS.ALICE
+    },
+    {
+        speaker: "Максим",
+        text: "Ну что стоишь, Алиса, с тебя теперь новый чай.",
+        char: CHARACTERS.MAX,
+        nextIdx: 20
+    },
+    //17
+    {
+        speaker: "???",
+        text: "Ну что стоишь. С тебя теперь новый чай.",
+        char: CHARACTERS.MAX
+    },
+    {
+        speaker: "Максим",
+        text: "Меня, кстати, Макс зовут, а тебя?",
+        char: CHARACTERS.MAX
+    },
+    {
+        speaker: "Алиса",
+        text: "Алиса.",
+        char: CHARACTERS.ALICE
+    },
+    //20
+    {
+        speaker: "Максим",
+        text: "Я с первого курса бизнес-информатики, а ты?",
+        char: CHARACTERS.MAX
+    },
+    {
+        speaker: "Алиса",
+        text: "Я тоже. Получается, мы одногруппники",
+        char: CHARACTERS.ALICE
+    },
+    
+
+
     
     {
         speaker: "",
