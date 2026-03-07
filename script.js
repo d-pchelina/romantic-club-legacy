@@ -175,34 +175,66 @@ const scenario = [
         text: "Алиса:",
         char: CHARACTERS.ALICE,
         choices: [
-            { text: "Конечно, звучит круто!", nextIdx: 24, stats: { ambition: 1 } },
-            { text: "Не знаю, надо подумать...", nextIdx: 25, stats: { shy: 1 } },
-            { text: "Только если ты будешь моим личным телохранителем от злых фанаток! Чур, я твоя главная фанатка! Мяу!", nextIdx: 26, stats: { maxRel: -1 } }
-        ]
-    },
-    // Ветки ответов Макса
-    { speaker: "Максим", text: "— И я о том же, пойдем вместе! Через пару дней собрание клуба. ", char: CHARACTERS.MAX, nextIdx: 27 },
-    { speaker: "Максим", text: "— Ты подумай, но не слишком долго. Через пару дней собрание клуба. ", char: CHARACTERS.MAX, nextIdx: 27 },
-    { speaker: "Максим", text: "— Окей… я просто про танцы спросил. Ты… интересная. Наверное", char: CHARACTERS.MAX_BRUH, nextIdx: 27 },
-    // Финал главы
+            { text: "Конечно, звучит круто!",         nextIdx: 24, stats: { ambition: 1 } },
+            { text: "Не знаю, надо подумать...",       nextIdx: 27, stats: { shy: 1     } },
+            { text: "Только если ты будешь... Мяу!",  nextIdx: 30, stats: { maxRel: -1 } }
+        ]},
+
+    // Амбициозная ветка
+    { speaker: "Максим", text: "— И я о том же, пойдем вместе! Через пару дней собрание клуба.", char: CHARACTERS.MAX },
     {
         speaker: "",
         text: "Макс допил чай и ушел вместе с кружкой в комнату.",
         char: null,
         background: BACKGROUNDS.KITCHEN
     },
-    /*{ background: BACKGROUNDS.BEDROOM,speaker: "Алиса", text: "Ух, конкурс. А где конкурс, там и кубок, и внимание. Но и ребята в клубе сильные... Ничего, стану лучшей. Скорей бы.", char: CHARACTERS.ALICE, nextIdx: 28 },
-    { background: BACKGROUNDS.BEDROOM,speaker: "Алиса", text: "Команда танцоров сильная, значит, и пробы сложные. Пройду ли я?", char: CHARACTERS.ALICE, nextIdx: 28  },
-    { background: BACKGROUNDS.BEDROOM,speaker: "Алиса", text: "Какая я же я красотка! Ну, Алиса, ну львица-тигрица. А сколько красивых мальчиков в танцевальном клубе...", char: CHARACTERS.ALICE, nextIdx: 28  },*/
-    {   isChoice: true, 
+    {
         background: BACKGROUNDS.BEDROOM,
-        text: "Алиса",
+        speaker: "Алиса",
+        text: "Ух, конкурс. А где конкурс, там и кубок, и внимание. Но и ребята в клубе сильные... Ничего, стану лучшей. Скорей бы.",
         char: CHARACTERS.ALICE,
-        choices: [
-            { text: "Ух, конкурс. А где конкурс, там и кубок, и внимание. Но и ребята в клубе сильные... Ничего, стану лучшей. Скорей бы.", nextIdx: 28, stats: { ambition: 1 } },
-            { text: "Команда танцоров сильная, значит, и пробы сложные. Пройду ли я?", nextIdx: 29, stats: { shy: 1 } },
-            { text: "Какая я же я красотка! Ну, Алиса, ну львица-тигрица. А сколько красивых мальчиков в танцевальном клубе...", nextIdx: 30}
-        ]}
+        endChapter: true   // ← ключевое поле
+    },
+
+    // Стеснительная ветка
+    { speaker: "Максим", text: "— Ты подумай, но не слишком долго. Через пару дней собрание клуба.", char: CHARACTERS.MAX },
+    {
+        speaker: "",
+        text: "Макс допил чай и ушел вместе с кружкой в комнату.",
+        char: null,
+        background: BACKGROUNDS.KITCHEN
+    },
+    {
+        background: BACKGROUNDS.BEDROOM,
+        speaker: "Алиса",
+        text: "Команда танцоров сильная, значит, и пробы сложные. Пройду ли я?",
+        char: CHARACTERS.ALICE,
+        endChapter: true
+    },
+
+    // Флиртовая / странная ветка
+    { speaker: "Максим", text: "— Окей… я просто про танцы спросил. Ты… интересная. Наверное", char: CHARACTERS.MAX_BRUH },
+    {
+        speaker: "",
+        text: "Макс допил чай и ушел вместе с кружкой в комнату.",
+        char: null,
+        background: BACKGROUNDS.KITCHEN
+    },
+    {
+        background: BACKGROUNDS.BEDROOM,
+        speaker: "Алиса",
+        text: "Какая я же я красотка! Ну, Алиса, ну львица-тигрица. А сколько красивых мальчиков в танцевальном клубе...",
+        char: CHARACTERS.ALICE,
+        endChapter: true
+    },
+
+    // ← Вот сюда все ветки сходятся
+    {
+        speaker: "",
+        text: "Конец главы 1",
+        char: null
+        // можно background: что-то нейтральное или оставить предыдущий
+    }
 ];
 
 // Управление экранами
@@ -294,8 +326,15 @@ function renderChoices(choices) {
 nextBtn.addEventListener('click', () => {
     const currentScene = scenario[currentSceneIndex];
     
-    if (currentScene.isChoice) return; 
+    if (currentScene.isChoice) return;
 
+    // Если текущая сцена — это уже конец главы → завершаем
+    if (currentScene.endChapter) {
+        finishChapter();
+        return;
+    }
+
+    // Обычный переход вперёд
     let nextIndex;
     if (currentScene.nextIdx !== undefined) {
         nextIndex = currentScene.nextIdx;
@@ -303,15 +342,28 @@ nextBtn.addEventListener('click', () => {
         nextIndex = currentSceneIndex + 1;
     }
     
-    if (nextIndex < scenario.length) {
-        showScene(nextIndex);  // ← Автоматически добавит в историю
+    if (nextIndex >= scenario.length) {
+        finishChapter();
+        return;
+    }
+
+    showScene(nextIndex);
+});
+
+function finishChapter() {
+    if (tg.version && tg.isVersionAtLeast && tg.isVersionAtLeast('6.2')) {
+        tg.showAlert("Глава 1 окончена!", () => {
+            sceneScreen.style.display = 'none';
+            chaptersScreen.style.display = 'flex';
+            sceneHistory = [];
+        });
     } else {
-        tg.showAlert("Глава окончена!");
+        alert("Глава 1 окончена!");
         sceneScreen.style.display = 'none';
         chaptersScreen.style.display = 'flex';
-        sceneHistory = [];  // ← СБРОС ИСТОРИИ
+        sceneHistory = [];
     }
-});
+}
 
 prevBtn.addEventListener('click', () => {
     if (sceneHistory.length > 1) {
