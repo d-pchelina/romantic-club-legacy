@@ -19,6 +19,7 @@ const choiceContainer = document.getElementById('choice-container');
 
 let currentSceneIndex = 0;
 let playerStats = { ambition: 0, shy: 0, maxRel: 0 };
+let sceneHistory = [];
 
 const CHARACTERS = {
     MAX: 'materials/max.png',
@@ -218,6 +219,7 @@ function startChapter(number) {
     }
     chaptersScreen.style.display = 'none';
     sceneScreen.style.display = 'flex';
+    sceneHistory = [];
     currentSceneIndex = 0;
     showScene(currentSceneIndex);
 }
@@ -225,6 +227,13 @@ function startChapter(number) {
 function showScene(index) {
     const scene = scenario[index];
     if (!scene) return;
+
+    // ← ЛОГИКА ИСТОРИИ: добавляем только если это новый индекс
+    if (sceneHistory.length === 0 || sceneHistory[sceneHistory.length - 1] !== index) {
+        sceneHistory.push(index);
+    }
+    
+    currentSceneIndex = index;  // Обновляем текущий индекс
 
     // Смена фона и персонажа
     if (scene.background) sceneBg.style.backgroundImage = `url(${scene.background})`;
@@ -237,15 +246,21 @@ function showScene(index) {
 
     // Логика выбора
     if (scene.isChoice) {
-        // Прячем стрелку "вперед" и показываем кнопки выбора
         nextBtn.style.display = 'none';
-        choiceContainer.style.display = 'flex'; // ВКЛЮЧАЕМ КОНТЕЙНЕР
+        choiceContainer.style.display = 'flex';
         renderChoices(scene.choices);
     } else {
-        // Показываем стрелку "вперед" и прячем кнопки выбора
         nextBtn.style.display = 'block';
-        choiceContainer.style.display = 'none'; // ВЫКЛЮЧАЕМ КОНТЕЙНЕР
+        choiceContainer.style.display = 'none';
     }
+    
+    // ← НОВОЕ: обновляем видимость кнопок навигации
+    updateNavButtons();
+}
+
+function updateNavButtons() {
+    const canGoBack = sceneHistory.length > 1;
+    prevBtn.classList.toggle('hidden', !canGoBack);
 }
 
 function renderChoices(choices) {
@@ -279,27 +294,29 @@ function renderChoices(choices) {
 nextBtn.addEventListener('click', () => {
     const currentScene = scenario[currentSceneIndex];
     
-    // Если текущая сцена — выбор, кнопка вообще не должна ничего делать
     if (currentScene.isChoice) return; 
 
+    let nextIndex;
     if (currentScene.nextIdx !== undefined) {
-        currentSceneIndex = currentScene.nextIdx;
+        nextIndex = currentScene.nextIdx;
     } else {
-        currentSceneIndex++;
+        nextIndex = currentSceneIndex + 1;
     }
     
-    if (currentSceneIndex < scenario.length) {
-        showScene(currentSceneIndex);
+    if (nextIndex < scenario.length) {
+        showScene(nextIndex);  // ← Автоматически добавит в историю
     } else {
         tg.showAlert("Глава окончена!");
         sceneScreen.style.display = 'none';
         chaptersScreen.style.display = 'flex';
+        sceneHistory = [];  // ← СБРОС ИСТОРИИ
     }
 });
 
 prevBtn.addEventListener('click', () => {
-    if (currentSceneIndex > 0) {
-        currentSceneIndex--;
-        showScene(currentSceneIndex);
+    if (sceneHistory.length > 1) {
+        sceneHistory.pop();  // Удаляем текущий из истории
+        currentSceneIndex = sceneHistory[sceneHistory.length - 1];  // Берём предыдущий
+        showScene(currentSceneIndex);  // Показываем и обновляем кнопки
     }
 });
