@@ -60,7 +60,7 @@ const CHAPTERS = {
         { speaker: "Алиса", text: "Привет, радуешься дождю?", background: BACKGROUNDS.KITCHEN, char: CHARACTERS.ALICE },
         { speaker: "", text: "Парень вздрагивает, задевает чашку. Чай растекается.", background: BACKGROUNDS.KITCHEN, char: CHARACTERS.MAX_SCARY },
         { speaker: "???", text: "Ой, привет… не заметил тебя.", char: CHARACTERS.MAX },
-        { speaker: "???", text: "Блин, теперь весь стол в чае…", char: CHARACTERS.MAX },
+        { speaker: "???", text: "Блин, теперь весь чай на столе...", char: CHARACTERS.MAX },
 
         { isChoice: true, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
             { text: "Жаль, что не ты.",     nextIdx: 9, stats: { peak: 1 } },
