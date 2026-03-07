@@ -17,240 +17,177 @@ const sceneBg         = document.getElementById('scene-bg');
 const mainChar        = document.getElementById('main-character');
 const choiceContainer = document.getElementById('choice-container');
 
+let currentChapter    = 1;
 let currentSceneIndex = 0;
-let playerStats = { ambition: 0, shy: 0, maxRel: 0 ,peak:0};
+let playerStats = { ambition: 0, shy: 0, maxRel: 0, peak: 0 };
 let sceneHistory = [];
+let maxUnlockedChapter = 1;
+
+// ────────────────────────────────────────────────
+// Ресурсы (персонажи и фоны)
+// ────────────────────────────────────────────────
 
 const CHARACTERS = {
-    MAX: 'materials/max.png',
-    MAX_CUP: 'materials/max_cup.png',
-    MAX_BRUH: 'materials/max_bruh.png',
-    MAX_SCARY: 'materials/max_scary.png',
-    ALICE: 'materials/Alice_smile.png',
-    ALICE_HORNI: 'materials/Alice_horni.png'
+    MAX:        'materials/max.png',
+    MAX_CUP:    'materials/max_cup.png',
+    MAX_BRUH:   'materials/max_bruh.png',
+    MAX_SCARY:  'materials/max_scary.png',
+    ALICE:      'materials/Alice_smile.png',
+    ALICE_HORNI:'materials/Alice_horni.png'
 };
 
 const BACKGROUNDS = {
-    KITCHEN: 'materials/kitchen.jpg',
-    STREET: 'materials/vuz.jpg',
-    BEDROOM: 'materials/bedroom.png',
+    KITCHEN:           'materials/kitchen.jpg',
+    STREET:            'materials/vuz.jpg',
+    BEDROOM:           'materials/bedroom.png',
     ALICE_SLEEP_SMILE: 'materials/AliceSleepSmile.jpg',
-    ALICE_SLEEP_SAD: 'materials/AliceSleepSad.jpg'
+    ALICE_SLEEP_SAD:   'materials/AliceSleepSad.jpg',
+    // для главы 2
+    HALL:        'materials/hall.jpg',
+    ARMCH:  'materials/armchairs.jpg'
 };
 
-// Сценарий 
-const scenario = [
-    {
-        speaker: "Алиса",
-        text: "Привет! Меня зовут Алиса, мне 18, и завтра мой первый учебный день в университете мечты.",
-        background: BACKGROUNDS.STREET,
-        char: CHARACTERS.ALICE,
-        
-    },
-    {
-        speaker: "Алиса",
-        text: "Волнуюсь ли я? Еще как, но, уверена, меня впереди меня ждут лучшие 4 года моей жизни. И может быть я даже найду здесь любовь.",
-        background: BACKGROUNDS.STREET,
-        char: CHARACTERS.ALICE,
-        
-    },
-    {
-        speaker: "Алиса",
-        text: "А пока я пытаюсь прорваться сквозь толпу студентов в общежитии на кухню. Здесь на удивление пусто.",
-        background: BACKGROUNDS.KITCHEN,
-        char: null,
-        
-    },
-    {
-        speaker: "",
-        text: "У окна стоит молодой человек с чашкой чая.",
-        background: BACKGROUNDS.KITCHEN,
-        char: CHARACTERS.MAX_CUP
-    },
-    {
-        speaker: "Алиса",
-        text: "Привет, радуешься дождю?",
-        background: BACKGROUNDS.KITCHEN,
-        char: CHARACTERS.ALICE,
-        
-    },
-    {
-        speaker: "",
-        text: "Молодой человек дергается, задевая чашку на столе. Чай разливается.",
-        background: BACKGROUNDS.KITCHEN,
-        char: CHARACTERS.MAX_SCARY
-    },
-    {
-        speaker: "???",
-        text: "Ой, привет, не заметил тебя.",
-        char: CHARACTERS.MAX
-    },
-    {
-        speaker: "???",
-        text: "Блин, чай теперь на столе...",
-        char: CHARACTERS.MAX
-    },
-    {
-        isChoice: true, 
-        text: "Алиса:",
-        char: CHARACTERS.ALICE,
-        choices: [
-            { text: "Жаль, что не ты.", nextIdx: 9, stats: { peak: 1 } },
-            { text: "Промолчать.", nextIdx: 15, stats: { shy: 1 } },
-        ]
-    },
-    {
-        speaker: "???",
-        text: "Что?",
-        char: CHARACTERS.MAX_BRUH
-    },
-    {
-        speaker: "Алиса",
-        text: "Что? Я Алиса, говорю.",
-        char: CHARACTERS.ALICE_HORNI
-    },
-    {
-        speaker: "Максим",
-        text: "Макс.",
-        char: CHARACTERS.MAX
-    },
-    {
-        speaker: "",
-        text: "Макс протягивает руку в приветственном жесте.",
-        char: CHARACTERS.MAX
-    },
-    {
-        speaker: "Алиса",
-        text: "*Его ладонь такая мужественная… Наверное, он много печатает на клавиатуре.*",
-        char: CHARACTERS.ALICE_HORNI
-    },
-    {
-        speaker: "Максим",
-        text: "Ну что стоишь, Алиса, с тебя теперь новый чай.",
-        char: CHARACTERS.MAX,
-        nextIdx: 20
-    },
-    //17
-    {
-        speaker: "???",
-        text: "Ну что стоишь. С тебя теперь новый чай.",
-        char: CHARACTERS.MAX
-    },
-    {
-        speaker: "Максим",
-        text: "Меня, кстати, Макс зовут, а тебя?",
-        char: CHARACTERS.MAX
-    },
-    {
-        speaker: "Алиса",
-        text: "Алиса.",
-        char: CHARACTERS.ALICE
-    },
-    //20
-    {
-        speaker: "Максим",
-        text: "Я с первого курса бизнес-информатики, а ты?",
-        char: CHARACTERS.MAX
-    },
-    {
-        speaker: "Алиса",
-        text: "Я тоже. Получается, мы одногруппники",
-        char: CHARACTERS.ALICE
-    },
-    {
-        speaker: "Максим",
-        text: "Чем по жизни занимаешься? Кроме бизнеса, так для души?",
-        char: CHARACTERS.MAX
-    },
-    {
-        speaker: "Алиса",
-        text: "Танцую с детства. А ты?",
-        char: CHARACTERS.ALICE
-    },
-    {
-        speaker: "Максим",
-        text: "О, я тоже люблю танцевать. Специально сюда поступил, слышал, у них крутая команда и серьезные конкурсы. Ближайшие — в ноябре. Пойдешь?",
-        char: CHARACTERS.MAX
-    },
-    {
-        isChoice: true, 
-        text: "Алиса:",
-        char: CHARACTERS.ALICE,
-        choices: [
-            { text: "Конечно, звучит круто!",         nextIdx: 24, stats: { ambition: 1 } },
-            { text: "Не знаю, надо подумать...",       nextIdx: 27, stats: { shy: 1} },
-            { text: "Только если ты будешь... Мяу!",  nextIdx: 30, stats: { maxRel: -1 ,peak:1} }
+// ────────────────────────────────────────────────
+// Сценарий — теперь объект с главами
+// ────────────────────────────────────────────────
+
+const CHAPTERS = {
+    1: [
+        { speaker: "Алиса", text: "Привет! Меня зовут Алиса, мне 18, и завтра мой первый учебный день в университете мечты.", background: BACKGROUNDS.STREET, char: CHARACTERS.ALICE },
+        { speaker: "Алиса", text: "Волнуюсь ли я? Еще как, но уверена — впереди лучшие 4 года жизни. И может быть… любовь.", background: BACKGROUNDS.STREET, char: CHARACTERS.ALICE },
+        { speaker: "Алиса", text: "А пока я пытаюсь прорваться сквозь толпу в общаге на кухню. Здесь неожиданно пусто.", background: BACKGROUNDS.KITCHEN, char: null },
+        { speaker: "", text: "У окна стоит парень с чашкой чая.", background: BACKGROUNDS.KITCHEN, char: CHARACTERS.MAX_CUP },
+        { speaker: "Алиса", text: "Привет, радуешься дождю?", background: BACKGROUNDS.KITCHEN, char: CHARACTERS.ALICE },
+        { speaker: "", text: "Парень вздрагивает, задевает чашку. Чай растекается.", background: BACKGROUNDS.KITCHEN, char: CHARACTERS.MAX_SCARY },
+        { speaker: "???", text: "Ой, привет… не заметил тебя.", char: CHARACTERS.MAX },
+        { speaker: "???", text: "Блин, теперь весь стол в чае…", char: CHARACTERS.MAX },
+
+        { isChoice: true, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+            { text: "Жаль, что не ты.",     nextIdx: 9, stats: { peak: 1 } },
+            { text: "Промолчать.",          nextIdx: 15, stats: { shy: 1 } }
         ]},
 
-    // Амбициозная ветка
-    { speaker: "Максим", text: "— И я о том же, пойдем вместе! Через пару дней собрание клуба.", char: CHARACTERS.MAX },
-    {
-        speaker: "",
-        text: "Макс допил чай и ушел вместе с кружкой в комнату.",
-        char: null,
-        background: BACKGROUNDS.KITCHEN
-    },
-    {
-        background: BACKGROUNDS.ALICE_SLEEP_SMILE,
-        speaker: "Алиса",
-        text: "Ух, конкурс. А где конкурс, там и кубок, и внимание. Но и ребята в клубе сильные... Ничего, стану лучшей. Скорей бы.",
-        char: null,
-        endChapter: true   // ← ключевое поле
-    },
+        { speaker: "???", text: "Что?", char: CHARACTERS.MAX_BRUH },
+        { speaker: "Алиса", text: "Что? Я Алиса.", char: CHARACTERS.ALICE_HORNI },
+        { speaker: "Максим", text: "Макс.", char: CHARACTERS.MAX },
+        { speaker: "", text: "Макс протягивает руку.", char: CHARACTERS.MAX },
+        { speaker: "Алиса", text: "*Его ладонь такая мужественная… Наверное, он много печатает.*", char: CHARACTERS.ALICE_HORNI },
+        { speaker: "Максим", text: "Ну что стоишь, Алиса? С тебя теперь новый чай.", char: CHARACTERS.MAX, nextIdx: 20 },
 
-    // Стеснительная ветка
-    { speaker: "Максим", text: "— Ты подумай, но не слишком долго. Через пару дней собрание клуба.", char: CHARACTERS.MAX },
-    {
-        speaker: "",
-        text: "Макс допил чай и ушел вместе с кружкой в комнату.",
-        char: null,
-        background: BACKGROUNDS.KITCHEN
-    },
-    {
-        background: BACKGROUNDS.ALICE_SLEEP_SAD,
-        speaker: "Алиса",
-        text: "Команда танцоров сильная, значит, и пробы сложные. Пройду ли я?",
-        char: null,
-        endChapter: true
-    },
+        // стеснительная ветка
+        { speaker: "Максим", text: "Ну что стоишь. С тебя теперь новый чай.", char: CHARACTERS.MAX },
+        { speaker: "Максим", text: "Меня, кстати, Макс зовут. А тебя?", char: CHARACTERS.MAX },
+        { speaker: "Алиса", text: "Алиса.", char: CHARACTERS.ALICE },
 
-    // Флиртовая / странная ветка
-    { speaker: "Максим", text: "— Окей… я просто про танцы спросил. Ты… интересная. Наверное", char: CHARACTERS.MAX_BRUH },
-    {
-        speaker: "",
-        text: "Макс допил чай и ушел вместе с кружкой в комнату.",
-        char: null,
-        background: BACKGROUNDS.KITCHEN
-    },
-    {
-        background: BACKGROUNDS.ALICE_SLEEP_SMILE,
-        speaker: "Алиса",
-        text: "Какая я же я красотка! Ну, Алиса, ну львица-тигрица. А сколько красивых мальчиков в танцевальном клубе...",
-        char: null,
-        endChapter: true
-    },
+        // общая часть
+        { speaker: "Максим", text: "Я с первого курса бизнес-информатики. А ты?", char: CHARACTERS.MAX },
+        { speaker: "Алиса", text: "Я тоже. Получается, одногруппники.", char: CHARACTERS.ALICE },
+        { speaker: "Максим", text: "Чем по жизни занимаешься? Кроме учёбы.", char: CHARACTERS.MAX },
+        { speaker: "Алиса", text: "Танцую с детства. А ты?", char: CHARACTERS.ALICE },
+        { speaker: "Максим", text: "О, я тоже. Специально сюда поступил — у них сильная команда и крутые конкурсы. Ближайший в ноябре. Пойдёшь?", char: CHARACTERS.MAX },
 
-    // ← Вот сюда все ветки сходятся
-    {
-        speaker: "",
-        text: "Конец главы 1",
-        char: null
-        // можно background: что-то нейтральное или оставить предыдущий
-    }
-];
+        { isChoice: true, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+            { text: "Конечно, звучит круто!",           nextIdx: 24, stats: { ambition: 1 } },
+            { text: "Не знаю… надо подумать.",          nextIdx: 27, stats: { shy: 1 } },
+            { text: "Только если ты будешь… Мяу~",     nextIdx: 30, stats: { maxRel: -1, peak: 1 } }
+        ]},
 
-// Управление экранами
+        // амбициозная
+        { speaker: "Максим", text: "И я о том же! Пойдём вместе. Через пару дней собрание клуба.", char: CHARACTERS.MAX },
+        { speaker: "", text: "Макс допивает чай и уходит.", background: BACKGROUNDS.KITCHEN, char: null },
+        { background: BACKGROUNDS.ALICE_SLEEP_SMILE, speaker: "Алиса", text: "Конкурс… кубок… внимание. Буду лучшей. Скорее бы.", char: null, endChapter: true },
+
+        // стеснительная
+        { speaker: "Максим", text: "Подумай, но не затягивай. Через пару дней собрание.", char: CHARACTERS.MAX },
+        { speaker: "", text: "Макс уходит.", background: BACKGROUNDS.KITCHEN, char: null },
+        { background: BACKGROUNDS.ALICE_SLEEP_SAD, speaker: "Алиса", text: "Сильная команда… смогу ли я пройти отбор?", char: null, endChapter: true },
+
+        // пикми
+        { speaker: "Максим", text: "…окей. Ты… довольно интересная. Наверное.", char: CHARACTERS.MAX_BRUH },
+        { speaker: "", text: "Макс быстро уходит.", background: BACKGROUNDS.KITCHEN, char: null },
+        { background: BACKGROUNDS.ALICE_SLEEP_SMILE, speaker: "Алиса", text: "Какая же я красотка! В танцевальном клубе будет море симпатичных парней…", char: null, endChapter: true },
+
+        { speaker: "", text: "Конец главы 1", char: null }
+    ],
+
+    // ───────────────────────────────
+    // Глава 2 (короткая, но с выбором)
+    // ───────────────────────────────
+    2: [
+        { speaker: "Алиса", text: "Наконец-то презентации клубов начались!", background: BACKGROUNDS.HALL, char: null },
+        { speaker: "Света", text: "Да уж. Ты уже решила, в какой клуб хочешь?", background: BACKGROUNDS.ARMCH, char: null },
+        { isChoice: true, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+            { text: "Не знаю пока, но думаю о танцевальном клубе...",           nextIdx: 3, stats: { shy: 1 } },
+            { text: "Хочу в танцевальный клуб.",          nextIdx: 3, stats: { ambition: 1 } }
+        ]},
+        { speaker: "Света", text: "Это здорово. Я вот хочу в КВН.", char: null},
+        { speaker: "Алиса", text: "Умеешь шутить?", char: CHARACTERS.ALICE},
+        { speaker: "Света", text: "Как-то раз еврея хотели казнить. Дали ему последнее желание.", char: null},
+        { speaker: "Света", text: "Он и говорит: хочу черешню. Ему отвечают: сейчас же зима...", char: null},
+        { speaker: "", text: "На сцену выходит клуб танцоров", char: null},
+        { speaker: "Алиса", text: "Тшш! Потом расскажешь.", background: BACKGROUNDS.ARMCH, char: null}
+    ]
+};
+
+// ────────────────────────────────────────────────
+// Функции
+// ────────────────────────────────────────────────
+
 mainButton.addEventListener('click', () => {
     tg.HapticFeedback.impactOccurred('medium');
     startScreen.style.display = 'none';
     chaptersScreen.style.display = 'flex';
 });
 
+function updateChapterCards() {
+    const cards = document.querySelectorAll('.chapter-card');
+    
+    cards.forEach((card, index) => {
+        const chapterNum = index + 1;
+        
+        const chapterExists = !!CHAPTERS[chapterNum];
+
+        if (chapterNum <= maxUnlockedChapter && chapterExists) {
+            card.classList.remove('locked');
+            card.querySelector('.chapter-status').textContent = 'Доступно';
+        } else {
+            card.classList.add('locked');
+            
+            if (!chapterExists) {
+                card.querySelector('.chapter-status').textContent = 'В разработке';
+            } else {
+                card.querySelector('.chapter-status').textContent = 
+                    chapterNum === 2 ? 'После главы 1' : 'Закрыто';
+            }
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateChapterCards();
+
+    document.querySelectorAll('.chapter-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const chapter = parseInt(card.dataset.chapter);
+            if (!isNaN(chapter)) {
+                startChapter(chapter);
+            }
+        });
+    });
+});
+
 function startChapter(number) {
-    if (number !== 1) {
-        tg.showAlert("Эта глава еще в пути 😘");
+    if (!CHAPTERS[number]) {
+        tg.showAlert("Эта глава ещё не готова...");
         return;
     }
+
+    if (number > maxUnlockedChapter) {
+        tg.showAlert(`Сначала заверши главу ${maxUnlockedChapter} 😘`);
+        return;
+    }
+
+    currentChapter = number;
     chaptersScreen.style.display = 'none';
     sceneScreen.style.display = 'flex';
     sceneHistory = [];
@@ -259,33 +196,30 @@ function startChapter(number) {
 }
 
 function showScene(index) {
-    const scene = scenario[index];
+    const chapter = CHAPTERS[currentChapter];
+    const scene = chapter[index];
     if (!scene) return;
 
-    // ← ЛОГИКА ИСТОРИИ: добавляем только если это новый индекс
     if (sceneHistory.length === 0 || sceneHistory[sceneHistory.length - 1] !== index) {
         sceneHistory.push(index);
     }
     
-    currentSceneIndex = index;  // Обновляем текущий индекс
+    currentSceneIndex = index;
 
-    // Смена фона и персонажа
     if (scene.background) sceneBg.style.backgroundImage = `url(${scene.background})`;
     if (scene.char) {
         mainChar.src = scene.char;
         mainChar.style.opacity = "1";
-        mainChar.style.display = "block";  // на всякий случай
+        mainChar.style.display = "block";
     } else {
-        mainChar.src = "";               // очищаем src, чтобы не грузил ничего
+        mainChar.src = "";
         mainChar.style.opacity = "0";
-        mainChar.style.display = "none"; // полностью скрываем элемент
+        mainChar.style.display = "none";
     }
 
-    // Текст
     speakerName.innerText = scene.speaker || "";
     dialogueText.innerText = scene.text || "";
 
-    // Логика выбора
     if (scene.isChoice) {
         nextBtn.style.display = 'none';
         choiceContainer.style.display = 'flex';
@@ -295,13 +229,11 @@ function showScene(index) {
         choiceContainer.style.display = 'none';
     }
     
-    // ← НОВОЕ: обновляем видимость кнопок навигации
     updateNavButtons();
 }
 
 function updateNavButtons() {
-    const canGoBack = sceneHistory.length > 1;
-    prevBtn.classList.toggle('hidden', !canGoBack);
+    prevBtn.classList.toggle('hidden', sceneHistory.length <= 1);
 }
 
 function renderChoices(choices) {
@@ -314,32 +246,23 @@ function renderChoices(choices) {
         btn.innerText = choice.text;
         
         btn.onclick = () => {
-            // --- 1. ЛОГИКА СТАТОВ И УВЕДОМЛЕНИЙ ---
             if (choice.stats) {
                 let message = "";
                 for (let s in choice.stats) {
                     let value = choice.stats[s];
-                    playerStats[s] += value; // Начисляем стат в память
-
-                    // Переводим названия для игрока
+                    playerStats[s] += value;
                     let statName = "";
                     if (s === 'ambition') statName = "Амбиции";
                     if (s === 'shy')      statName = "Стеснительность";
                     if (s === 'maxRel')   statName = "Отношения с Максом";
-                    if (s=== 'peak') statName = "Пикми";   
-                    // Формируем строчку, например: "+1 Амбиции"
+                    if (s === 'peak')     statName = "Пикми";
                     let sign = value > 0 ? "+" : "";
                     message += `${sign}${value} ${statName}\n`;
                 }
-
-                // Вызываем всплывашку, если статы изменились
-                if (message !== "") {
-                    showStatNotification(message.trim());
-                }
+                if (message) showStatNotification(message.trim());
             }
             
-            // --- 2. ПЕРЕХОД К СЛЕДУЮЩЕЙ СЦЕНЕ ---
-            currentSceneIndex = choice.nextIdx; 
+            currentSceneIndex = choice.nextIdx;
             choiceContainer.style.display = 'none';
             showScene(currentSceneIndex);
         };
@@ -348,25 +271,21 @@ function renderChoices(choices) {
 }
 
 nextBtn.addEventListener('click', () => {
-    const currentScene = scenario[currentSceneIndex];
+    const chapter = CHAPTERS[currentChapter];
+    const currentScene = chapter[currentSceneIndex];
     
     if (currentScene.isChoice) return;
 
-    // Если текущая сцена — это уже конец главы → завершаем
     if (currentScene.endChapter) {
         finishChapter();
         return;
     }
 
-    // Обычный переход вперёд
-    let nextIndex;
-    if (currentScene.nextIdx !== undefined) {
-        nextIndex = currentScene.nextIdx;
-    } else {
-        nextIndex = currentSceneIndex + 1;
-    }
+    let nextIndex = currentScene.nextIdx !== undefined 
+        ? currentScene.nextIdx 
+        : currentSceneIndex + 1;
     
-    if (nextIndex >= scenario.length) {
+    if (nextIndex >= chapter.length) {
         finishChapter();
         return;
     }
@@ -375,39 +294,42 @@ nextBtn.addEventListener('click', () => {
 });
 
 function finishChapter() {
+    const msg = `Глава ${currentChapter} окончена!`;
+    
+    // Разблокируем следующую главу
+    if (currentChapter === maxUnlockedChapter) {
+        maxUnlockedChapter = currentChapter + 1;
+    }
+
     if (tg.version && tg.isVersionAtLeast && tg.isVersionAtLeast('6.2')) {
-        tg.showAlert("Глава 1 окончена!", () => {
+        tg.showAlert(msg, () => {
             sceneScreen.style.display = 'none';
             chaptersScreen.style.display = 'flex';
             sceneHistory = [];
+            updateChapterCards();          // ← вот здесь обновляем карточки
         });
     } else {
-        alert("Глава 1 окончена!");
+        alert(msg);
         sceneScreen.style.display = 'none';
         chaptersScreen.style.display = 'flex';
         sceneHistory = [];
+        updateChapterCards();              // ← и здесь
     }
 }
 
 prevBtn.addEventListener('click', () => {
     if (sceneHistory.length > 1) {
-        sceneHistory.pop();  // Удаляем текущий из истории
-        currentSceneIndex = sceneHistory[sceneHistory.length - 1];  // Берём предыдущий
-        showScene(currentSceneIndex);  // Показываем и обновляем кнопки
+        sceneHistory.pop();
+        currentSceneIndex = sceneHistory[sceneHistory.length - 1];
+        showScene(currentSceneIndex);
     }
 });
+
 function showStatNotification(text) {
     const toast = document.getElementById('stat-toast');
+    if (!toast) return;
     toast.innerText = text;
     toast.classList.add('show');
-
-    // Вибрация телефона при получении стата
-    if (window.Telegram && window.Telegram.WebApp) {
-        tg.HapticFeedback.notificationOccurred('success');
-    }
-
-    // Скрыть через 2 секунды
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 2000);
+    tg.HapticFeedback?.notificationOccurred('success');
+    setTimeout(() => toast.classList.remove('show'), 2000);
 }
