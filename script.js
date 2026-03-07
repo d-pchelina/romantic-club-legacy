@@ -93,7 +93,7 @@ const scenario = [
         text: "Алиса:",
         char: CHARACTERS.ALICE,
         choices: [
-            { text: "Жаль, что не ты.", nextIdx: 9, stats: { ambition: 1 } },
+            { text: "Жаль, что не ты.", nextIdx: 9, stats: { peak: 1 } },
             { text: "Промолчать.", nextIdx: 15, stats: { shy: 1 } },
         ]
     },
@@ -176,7 +176,7 @@ const scenario = [
         char: CHARACTERS.ALICE,
         choices: [
             { text: "Конечно, звучит круто!",         nextIdx: 24, stats: { ambition: 1 } },
-            { text: "Не знаю, надо подумать...",       nextIdx: 27, stats: { shy: 1     } },
+            { text: "Не знаю, надо подумать...",       nextIdx: 27, stats: { shy: 1} },
             { text: "Только если ты будешь... Мяу!",  nextIdx: 30, stats: { maxRel: -1 ,peak:1} }
         ]},
 
@@ -269,8 +269,15 @@ function showScene(index) {
 
     // Смена фона и персонажа
     if (scene.background) sceneBg.style.backgroundImage = `url(${scene.background})`;
-    mainChar.src = scene.char || "";
-    mainChar.style.opacity = scene.char ? "1" : "0";
+    if (scene.char) {
+        mainChar.src = scene.char;
+        mainChar.style.opacity = "1";
+        mainChar.style.display = "block";  // на всякий случай
+    } else {
+        mainChar.src = "";               // очищаем src, чтобы не грузил ничего
+        mainChar.style.opacity = "0";
+        mainChar.style.display = "none"; // полностью скрываем элемент
+    }
 
     // Текст
     speakerName.innerText = scene.speaker || "";
