@@ -34,6 +34,8 @@ const BACKGROUNDS = {
     KITCHEN: 'materials/kitchen.jpg',
     STREET: 'materials/vuz.jpg',
     BEDROOM: 'materials/bedroom.png',
+    ALICE_SLEEP_SMILE: 'materials/AliceSleepSmile.png',
+    ALICE_SLEEP_SAD: 'materials/AliceSleepSad.png'
 };
 
 // Сценарий 
@@ -189,10 +191,10 @@ const scenario = [
         background: BACKGROUNDS.KITCHEN
     },
     {
-        background: BACKGROUNDS.BEDROOM,
+        background: BACKGROUNDS.ALICE_SLEEP_SMILE,
         speaker: "Алиса",
         text: "Ух, конкурс. А где конкурс, там и кубок, и внимание. Но и ребята в клубе сильные... Ничего, стану лучшей. Скорей бы.",
-        char: CHARACTERS.ALICE,
+        char: null,
         endChapter: true   // ← ключевое поле
     },
 
@@ -205,10 +207,10 @@ const scenario = [
         background: BACKGROUNDS.KITCHEN
     },
     {
-        background: BACKGROUNDS.BEDROOM,
+        background: BACKGROUNDS.ALICE_SLEEP_SAD,
         speaker: "Алиса",
         text: "Команда танцоров сильная, значит, и пробы сложные. Пройду ли я?",
-        char: CHARACTERS.ALICE,
+        char: null,
         endChapter: true
     },
 
@@ -221,10 +223,10 @@ const scenario = [
         background: BACKGROUNDS.KITCHEN
     },
     {
-        background: BACKGROUNDS.BEDROOM,
+        background: BACKGROUNDS.ALICE_SLEEP_SMILE,
         speaker: "Алиса",
         text: "Какая я же я красотка! Ну, Алиса, ну львица-тигрица. А сколько красивых мальчиков в танцевальном клубе...",
-        char: CHARACTERS.ALICE,
+        char: null,
         endChapter: true
     },
 
