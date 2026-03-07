@@ -18,7 +18,7 @@ const mainChar        = document.getElementById('main-character');
 const choiceContainer = document.getElementById('choice-container');
 
 let currentSceneIndex = 0;
-let playerStats = { ambition: 0, shy: 0, maxRel: 0 };
+let playerStats = { ambition: 0, shy: 0, maxRel: 0 ,peak:0};
 let sceneHistory = [];
 
 const CHARACTERS = {
@@ -177,7 +177,7 @@ const scenario = [
         choices: [
             { text: "Конечно, звучит круто!",         nextIdx: 24, stats: { ambition: 1 } },
             { text: "Не знаю, надо подумать...",       nextIdx: 27, stats: { shy: 1     } },
-            { text: "Только если ты будешь... Мяу!",  nextIdx: 30, stats: { maxRel: -1 } }
+            { text: "Только если ты будешь... Мяу!",  nextIdx: 30, stats: { maxRel: -1 ,peak:1} }
         ]},
 
     // Амбициозная ветка
@@ -305,18 +305,33 @@ function renderChoices(choices) {
         btn.innerText = choice.text;
         
         btn.onclick = () => {
-            // 1. Начисляем статы
+            // --- 1. ЛОГИКА СТАТОВ И УВЕДОМЛЕНИЙ ---
             if (choice.stats) {
-                for (let s in choice.stats) playerStats[s] += choice.stats[s];
+                let message = "";
+                for (let s in choice.stats) {
+                    let value = choice.stats[s];
+                    playerStats[s] += value; // Начисляем стат в память
+
+                    // Переводим названия для игрока
+                    let statName = "";
+                    if (s === 'ambition') statName = "Амбиции";
+                    if (s === 'shy')      statName = "Стеснительность";
+                    if (s === 'maxRel')   statName = "Отношения с Максом";
+                    if (s=== 'peak') statName = "Пикми";   
+                    // Формируем строчку, например: "+1 Амбиции"
+                    let sign = value > 0 ? "+" : "";
+                    message += `${sign}${value} ${statName}\n`;
+                }
+
+                // Вызываем всплывашку, если статы изменились
+                if (message !== "") {
+                    showStatNotification(message.trim());
+                }
             }
             
-            // 2. ВАЖНО: Обновляем глобальный индекс на тот, что указан в выборе
+            // --- 2. ПЕРЕХОД К СЛЕДУЮЩЕЙ СЦЕНЕ ---
             currentSceneIndex = choice.nextIdx; 
-            
-            // 3. Скрываем контейнер выбора сразу после нажатия
             choiceContainer.style.display = 'none';
-            
-            // 4. Запускаем следующую сцену
             showScene(currentSceneIndex);
         };
         choiceContainer.appendChild(btn);
@@ -372,3 +387,18 @@ prevBtn.addEventListener('click', () => {
         showScene(currentSceneIndex);  // Показываем и обновляем кнопки
     }
 });
+function showStatNotification(text) {
+    const toast = document.getElementById('stat-toast');
+    toast.innerText = text;
+    toast.classList.add('show');
+
+    // Вибрация телефона при получении стата
+    if (window.Telegram && window.Telegram.WebApp) {
+        tg.HapticFeedback.notificationOccurred('success');
+    }
+
+    // Скрыть через 2 секунды
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2000);
+}
