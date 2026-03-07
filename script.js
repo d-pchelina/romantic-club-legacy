@@ -34,8 +34,8 @@ const BACKGROUNDS = {
     KITCHEN: 'materials/kitchen.jpg',
     STREET: 'materials/vuz.jpg',
     BEDROOM: 'materials/bedroom.png',
-    ALICE_SLEEP_SMILE: 'materials/AliceSleepSmile.png',
-    ALICE_SLEEP_SAD: 'materials/AliceSleepSad.png'
+    ALICE_SLEEP_SMILE: 'materials/AliceSleepSmile.jpg',
+    ALICE_SLEEP_SAD: 'materials/AliceSleepSad.jpg'
 };
 
 // Сценарий 
