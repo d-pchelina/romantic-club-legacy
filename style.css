@@ -354,40 +354,46 @@
 }
 
 
+/* Изменяем контейнер выбора */
 .choice-container {
-    display: none; /* JS поменяет это на flex когда нужно */
+    display: none; /* Переключается через JS */
     flex-direction: column;
-    gap: 15px;
-    position: absolute;
-    bottom: 180px; /* Высота над диалоговым окном */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 85%;
-    max-width: 320px;
-    z-index: 999; /* Самый высокий слой */
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    z-index: 999;
+    /* Убираем absolute, чтобы кнопки были внутри диалогового окна */
+    position: relative; 
+    bottom: auto; 
+    left: auto;
+    transform: none;
 }
 
+/* Стилизуем кнопки выбора, чтобы они лучше вписывались в узкий блок */
 .choice-button {
-    background: white;
-    color: #f13a77;
-    border: 2px solid #f13a77;
-    padding: 12px 20px;
-    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.15); /* Полупрозрачные под стиль окна */
+    color: #f8e7ef;
+    border: 1px solid #ff9ec2;
+    padding: 10px 15px;
+    border-radius: 12px;
     font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 15px;
+    font-weight: 500;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(241, 58, 119, 0.3);
     transition: all 0.2s ease;
+    text-align: center;
 }
 
 .choice-button:active {
-    transform: scale(0.95);
     background: #f13a77;
     color: white;
+    transform: scale(0.98);
 }
-.choice-button:hover {
-    background: rgba(255, 255, 255, 0.3);
+
+/* Чтобы текст диалога исчезал, когда появляются кнопки (опционально) */
+.dialogue-text.hidden {
+    display: none;
 }
 
 /* Убеждаемся, что кнопки навигации всегда поверх всего */
