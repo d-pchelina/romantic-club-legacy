@@ -19,7 +19,7 @@ const choiceContainer = document.getElementById('choice-container');
 
 let currentChapter    = 1;
 let currentSceneIndex = 0;
-let playerStats = { ambition: 0, shy: 0, maxRel: 0, peak: 0 };
+let playerStats = { ambition: 0, shy: 0, maxRel: 0, peak: 0 ,kirRel:0};
 let sceneHistory = [];
 let maxUnlockedChapter = 1;
 
@@ -33,7 +33,10 @@ const CHARACTERS = {
     MAX_BRUH:   'materials/max_bruh.png',
     MAX_SCARY:  'materials/max_scary.png',
     ALICE:      'materials/Alice_smile.png',
-    ALICE_HORNI:'materials/Alice_horni.png'
+    ALICE_HORNI:'materials/Alice_horni.png',
+    DIANA: 'materials/Diana.png',
+    KIRILL: 'materials/Kirill_Nagliy.png',
+    SVETA: 'materials/Sveta.png'
 };
 
 const BACKGROUNDS = {
@@ -115,18 +118,75 @@ const CHAPTERS = {
     // ───────────────────────────────
     2: [
         { speaker: "Алиса", text: "Наконец-то презентации клубов начались!", background: BACKGROUNDS.HALL, char: null },
-        { speaker: "Света", text: "Да уж. Ты уже решила, в какой клуб хочешь?", background: BACKGROUNDS.ARMCH, char: null },
+        { speaker: "Света", text: "Да уж. Ты уже решила, в какой клуб хочешь?", background: BACKGROUNDS.ARMCH, char: CHARACTERS.ALICE },
         { isChoice: true, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
             { text: "Не знаю пока, но думаю о танцевальном клубе...",           nextIdx: 3, stats: { shy: 1 } },
             { text: "Хочу в танцевальный клуб.",          nextIdx: 3, stats: { ambition: 1 } }
         ]},
-        { speaker: "Света", text: "Это здорово. Я вот хочу в КВН.", char: null},
+        { speaker: "Света", text: "Это здорово. Я вот хочу в КВН.", char: CHARACTERS.SVETA},
         { speaker: "Алиса", text: "Умеешь шутить?", char: CHARACTERS.ALICE},
-        { speaker: "Света", text: "Как-то раз еврея хотели казнить. Дали ему последнее желание.", char: null},
-        { speaker: "Света", text: "Он и говорит: хочу черешню. Ему отвечают: сейчас же зима...", char: null},
+        { speaker: "Света", text: "Как-то раз еврея хотели казнить. Дали ему последнее желание.", char: CHARACTERS.SVETA},
+        { speaker: "Света", text: "Он и говорит: хочу черешню. Ему отвечают: сейчас же зима...", char: CHARACTERS.SVETA},
         { speaker: "", text: "На сцену выходит клуб танцоров", char: null},
-        { speaker: "Алиса", text: "Тшш! Потом расскажешь.", background: BACKGROUNDS.ARMCH, char: null}
-    ]
+        { speaker: "Алиса", text: "Тшш! Потом расскажешь.", background: BACKGROUNDS.ARMCH, char: CHARACTERS.ALICE},
+        { speaker: "", text: "Клубы представлялись один за другим, рассказывая о своих достижениях, мероприятиях и участниках. Но все они не то чтобы заинтересовали Алису, так что с каждой минутой ей становилось все скучнее. А вскоре и вовсе потянуло в сон.", background: BACKGROUNDS.HALL },
+    
+    // --- Выход танцоров ---
+        { speaker: "", text: "К ее счастью, именно в этот момент на сцене появился танцевальный клуб. Его представляли девушка и парень.", background: BACKGROUNDS.HALL, char: null },
+        { speaker: "Диана", text: "Всем добрый вечер, я Диана, заместитель руководителя танцевального клуба, - представилась невысокая темноволосая девушка и помахала рукой в знак приветствия. - А это наш командир, руководитель и просто прекрасный танцор Кирилл.", char: CHARACTERS.DIANA },
+        { speaker: "", text: "Она повернулась в его сторону, протянув обе руки к нему, представляя. Он коротко поклонился, широко улыбаясь.", background: BACKGROUNDS.HALL, char: null },
+        { speaker: "Кирилл", text: "Рад видеть вас на этой встрече. В этом году мы набираем много новичков, так что шанс есть у каждого. Что ж, давайте начнем нашу презентацию. Наш университет участвует в «Танцы-Шманцы» уже на протяжении 10 лет. И 8 из 10 раз мы выходили победителями. В этом году тоже планируем, - Кирилл весело улыбнулся, повернувшись к залу. - Так что у вас тоже есть шанс стать победителями. Но учтите, что придется постараться, в команду на конкурс будет отдельный отбор среди всех участников клуба.", char: CHARACTERS.KIRILL },
+        { speaker: "Кирилл", text: "Но не переживайте, для тех, кто не сможет попасть в конкурсную команду, тоже найдется занятие. Мы проводим тренировки 3 раза в неделю, а также мастер-классы и участвуем в мероприятиях, помимо конкурсов. Например, наши показательные выступления. Кстати, номер, который вы видели на приветственном дне, был организован нашим клубом.", char: CHARACTERS.KIRILL },
+        { speaker: "Кирилл", text: "Есть ли уже желающие пойти к нам? - хитро прищурившись, спросил Кирилл, наблюдая за залом.", char: CHARACTERS.KIRILL },
+
+    // --- Выбор: Активность ---
+    { isChoice: true, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+        { text: "Да, я бы хотела присоединиться, - подняла руку Алиса.", nextIdx: 17, stats: { ambition: 1 } },
+        { text: "*Промолчать*", nextIdx: 18 }
+    ]},
+
+    // Ветка 1: Подняла руку
+    { speaker: "Кирилл", text: "Замечательно, красавица! Подойди ко мне сразу после мероприятия.", char: CHARACTERS.KIRILL, nextIdx: 19},
+    
+    // Ветка 2: Промолчала
+    { speaker: "Кирилл", text: "Ну, если стесняетесь сейчас — подходите после, обсудим просмотр.", char: CHARACTERS.KIRILL,nextIdx: 23},
+
+    // --- После мероприятия ---
+    { speaker: "", text: "Сон как рукой сняло, но каждое следующее выступление длилось мучительно долго. Поэтому, когда объявили о завершении последнего, Алиса чуть ли не подпрыгнула и направилась к танцорам. Следом за ней подошел Максим.", background: BACKGROUNDS.HALL, char: null },
+    { speaker: "Кирилл", text: "О, это ты, красавица. Приятно видеть таких смельчаков. Мы уже знакомы заочно, но хотелось бы лично. Я Кирилл, - он протянул руку.", char: CHARACTERS.KIRILL },
+    { speaker: "Алиса", text: "Алиса. Очень приятно.", char: CHARACTERS.ALICE },
+    { speaker: "Кирилл", text: "Взаимно, - он повернулся ко всем и объявил. - Сейчас Диана раздаст вам анкеты, заполните их и сдайте, а мы напишем вам позже.", char: CHARACTERS.KIRILL,nextIdx:25},
+    
+    { speaker: "", text: "Следующие выступления пролетели для Алисы незаметно. Она задумалась о том, как подойти и что лучше сказать, едва не пропустив окончание мероприятия. Когда все начали вставать, Алиса с трудом отыскала взглядом танцоров и поспешила к ним. Следом за ней подошел Максим.", background: BACKGROUNDS.HALL, char: null },
+    { speaker: "Кирилл", text: "Сейчас Диана раздаст вам анкеты, заполните их и сдайте, а мы напишем вам позже.", char: CHARACTERS.KIRILL },
+
+    
+    
+    
+    { speaker: "", text: "Алиса быстро заполнила анкету и вернула ее девушке.", background: BACKGROUNDS.HALL, char: null },
+    
+
+    // --- Финальный выбор главы ---
+    { isChoice: true, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+        { text: "*Попрощаться*", stats: { peak: 1 },nextIdx:27},
+        { text: "*Уйти незаметно*", nextIdx:32}
+    ]},
+    { speaker: "Максим", text: "А как скоро придет ответ?", char: CHARACTERS.MAX },
+    { speaker: "Диана", text: "Послезавтра.", char: CHARACTERS.DIANA },
+    { speaker: "Кирилл", text: "Завтра у нас выступление, будем заняты. Но если захотите — приходите посмотреть.", char: CHARACTERS.KIRILL },
+    { speaker: "", text: "Кирилл заговорщицки подмигнул Алисе.", char: CHARACTERS.KIRILL },
+
+    // Результаты выбора
+    { isChoice: true, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+        { text: "Спасибо за предложение, звучит заманчиво.", nextIdx: 33, stats: { peak: 1 } },
+        { text: "Спасибо за предложение, мы подумаем.", nextIdx: 33 },
+        { text: "*Уйти*", nextIdx: 33, stats: { kirRel:-1 } }
+    ]},
+    { speaker: "Алиса", text: "Фух, кажется, я справилась. Пора домой.", endChapter: true },
+
+    { speaker: "Алиса", text: "Завтра будет важный день.", endChapter: true }
+]
+    
 };
 
 // ────────────────────────────────────────────────
@@ -256,6 +316,7 @@ function renderChoices(choices) {
                     if (s === 'shy')      statName = "Стеснительность";
                     if (s === 'maxRel')   statName = "Отношения с Максом";
                     if (s === 'peak')     statName = "Пикми";
+                    if (s === 'kirRel')   statName = "Отношения с Кириллом";
                     let sign = value > 0 ? "+" : "";
                     message += `${sign}${value} ${statName}\n`;
                 }
