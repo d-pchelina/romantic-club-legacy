@@ -19,7 +19,6 @@
             content: "";
             position: absolute;
             inset: 0;
-            background: url('https://images.unsplash.com/photo-1529641484333-03811b992e4b?auto=format&fit=crop&q=60') center / 180% auto repeat;
             opacity: 0.07;
             pointer-events: none;
             mix-blend-mode: overlay;
@@ -355,19 +354,41 @@
 
 
 /* Изменяем контейнер выбора */
+
+.choice-header {
+    font-family: 'Great Vibes', cursive;
+    font-size: 24px;                   /* или 22px, как у speaker-name */
+    color: #ff9ec2;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    letter-spacing: 0.5px;
+    text-align: center;
+    margin: 0 0 12px 0;                /* расстояние до кнопок — подбери под вкус */
+    opacity: 0.95;
+}
+
 .choice-container {
-    display: none; /* Переключается через JS */
+    display: none;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;                   /* расстояние между кнопками */
     width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    z-index: 999;
-    /* Убираем absolute, чтобы кнопки были внутри диалогового окна */
-    position: relative; 
-    bottom: auto; 
-    left: auto;
-    transform: none;
+    max-width: 380px;
+    margin: 0 auto 80px auto;    /* ← подвинули вверх, добавив margin-bottom */
+    padding: 0 16px;
+    position: relative;
+    z-index: 12;
+}
+
+.choice-container .speaker-name {
+    font-family: 'Great Vibes', cursive;
+    font-size: 24px;                   /* можно чуть больше, чем внизу */
+    color: #ff9ec2;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    letter-spacing: 0.5px;
+    text-align: center;
+    margin: 0 0 12px 0;                /* расстояние до кнопок — регулируй здесь (было 5px → 12px для красоты) */
+    padding: 0;
+    height: auto;
+    opacity: 0.95;
 }
 
 /* Стилизуем кнопки выбора, чтобы они лучше вписывались в узкий блок */
