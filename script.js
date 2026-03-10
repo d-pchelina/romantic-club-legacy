@@ -212,7 +212,7 @@ const CHAPTERS = {
     { speaker: "Виктор Андреевич", text: "О да, вы были на ней минуту назад, а сейчас я прошу вас выйти и подумать над своим поведением.", char: CHARACTERS.VICTOR ,background:BACKGROUNDS.CABINET}, // 8
     { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Сама решу.", char: CHARACTERS.ALICE }, // 9
     { speaker: "Виктор Андреевич", text: "Что-о-о?", char: CHARACTERS.VICTOR,background:BACKGROUNDS.CABINET }, // 10
-    { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Самаааа решуууу, — Алиса пожимает плечами, садится за парту. — Продолжайте там свою тему.", char: CHARACTERS.ALICE }, // 11
+    { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Самаааа решуууу. Продолжайте там свою тему.", char: CHARACTERS.ALICE }, // 11
     { speaker: "Виктор Андреевич", text: "Ну знаете...", char: CHARACTERS.VICTOR,background:BACKGROUNDS.CABINET }, // 12
     { speaker: "СИСТЕМА", text: "Алису отчислили. Вы проиграли.", endChapter: true,isGameOver: true }, // 13 (GAME OVER)
 
@@ -250,7 +250,7 @@ const CHAPTERS = {
     // 1. Макс
     { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Макс, не хочешь с нами?", char: CHARACTERS.ALICE_HORNI}, // 26
     { speaker: "Максим",background:BACKGROUNDS.CLASSROOM, text: "Конечно, давайте. Я слышал, они недавно сменили рекламу на агрессивную. Возможно, причина в этом...", char: CHARACTERS.MAX }, // 27
-    { speaker: "Света",background:BACKGROUNDS.CLASSROOM, text: "Либо директор проиграл компанию в казик.", char: null, nextIdx: 35 }, // 28
+    { speaker: "Света",background:BACKGROUNDS.CLASSROOM, text: "Либо директор проиграл компанию в казик.", char: CHARACTERS.SVETA, nextIdx: 35 }, // 28
 
     // 2. Катя
     { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Эй, хочешь с нами делать?", char: CHARACTERS.ALICE }, // 29
@@ -259,12 +259,12 @@ const CHAPTERS = {
     { speaker: "Катя",background:BACKGROUNDS.CLASSROOM, text: "Можно, а зачем?", char: CHARACTERS.KATYA, nextIdx: 35 }, // 32
 
     // 3. Сами
-    { speaker: "Света",background:BACKGROUNDS.CLASSROOM, text: "Ничего не понимаю. Ну что такого поменялось у текстильной фирмы за месяц?", char: null }, // 33
+    { speaker: "Света",background:BACKGROUNDS.CLASSROOM, text: "Ничего не понимаю. Ну что такого поменялось у текстильной фирмы за месяц?", char: CHARACTERS.SVETA }, // 33
     { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Хлопок некому собирать?", char: CHARACTERS.ALICE }, // 34
 
     // --- Сцена 35: Конец пары ---
     { speaker: "",background:BACKGROUNDS.CABINET, text: "Звонок прозвенел неожиданно. Виктор Андреевич вышел из кабинета.", char: null },
-    { speaker: "Света",background:BACKGROUNDS.CLASSROOM, text: "Собираешься сегодня готовиться или пойдешь на выступление?", char: null },
+    { speaker: "Света",background:BACKGROUNDS.CLASSROOM, text: "Собираешься сегодня готовиться или пойдешь на выступление?", char: CHARACTERS.SVETA },
 
     // --- Сцена 37: Выбор (Идти или нет) ---
     { isChoice: true,background:BACKGROUNDS.CLASSROOM, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
