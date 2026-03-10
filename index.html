@@ -25,7 +25,7 @@
         <div id="chapters-screen">
     <div class="description">Выберите главу</div>
     
-    <div class="chapter-card" onclick="startChapter(1)">
+     <div class="chapter-card" data-chapter="1">
         <div class="chapter-title">Глава 1: Алиса в общежитии</div>
         <div class="chapter-status">Доступно</div>
     </div>
@@ -35,9 +35,9 @@
         <div class="chapter-status">После главы 1</div>
     </div>
 
-    <div class="chapter-card locked" onclick="tg.showAlert('Завершите предыдущие главы')">
+    <div class="chapter-card locked" data-chapter="3">
         <div class="chapter-title">Глава 3: Знакомство с преподавателем</div>
-        <div class="chapter-status">Закрыто</div>
+        <div class="chapter-status">После главы 2</div>
     </div>
 </div>
 <div id="scene-screen" style="display: none;">

@@ -37,7 +37,7 @@ const CHARACTERS = {
     DIANA: 'materials/Diana.png',
     KIRILL: 'materials/Kirill_Nagliy.png',
     SVETA: 'materials/Sveta.png',
-    VICTOR: 'materials/Viktor.png',
+    VICTOR: 'materials/Victor.png',
     KATYA:'materials/KATYA.png'
 };
 
@@ -192,7 +192,7 @@ const CHAPTERS = {
     { speaker: "Алиса", text: "Завтра будет важный день.", endChapter: true }],
     3: [
     // --- Сцена 0: Опоздание ---
-    { speaker: "Света", text: "Опаздываем. Неловко получается, — бегом поднимаясь по лестнице, замечает Света. — Говорят, Виктор Андреевич тот еще душнила.", background: BACKGROUNDS.CORRIDOR, char: null },
+    { speaker: "Света", text: "Опаздываем. Неловко получается, — бегом поднимаясь по лестнице, замечает Света. — Говорят, Виктор Андреевич тот еще душнила.", background: BACKGROUNDS.CORRIDOR, char: CHARACTERS.SVETA },
     { speaker: "Алиса", text: "Может, не всё так плохо? Ну с кем не бывает...", char: CHARACTERS.ALICE,background: BACKGROUNDS.CORRIDOR },
     { speaker: "", text: "Они быстрым шагом заходят в кабинет и замирают, заметив строгий взгляд молодого человека.", char: CHARACTERS.VICTOR,background:BACKGROUNDS.CABINET },
     { speaker: "Виктор Андреевич", text: "Вот он, лучший пример неподобающего поведения. Дамы, вы не считаете, что это как минимум неуважительно и как максимум неприлично — опаздывать на первое же занятие?", char: CHARACTERS.VICTOR ,background:BACKGROUNDS.CABINET},
