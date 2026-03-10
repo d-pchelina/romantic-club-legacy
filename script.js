@@ -19,7 +19,7 @@ const choiceContainer = document.getElementById('choice-container');
 
 let currentChapter    = 1;
 let currentSceneIndex = 0;
-let playerStats = { ambition: 0, shy: 0, maxRel: 0, peak: 0 ,kirRel:0};
+let playerStats = { ambition: 0, shy: 0, maxRel: 0, peak: 0 ,kirRel:0, victRel:0};
 let sceneHistory = [];
 let maxUnlockedChapter = 1;
 
@@ -36,7 +36,9 @@ const CHARACTERS = {
     ALICE_HORNI:'materials/Alice_horni.png',
     DIANA: 'materials/Diana.png',
     KIRILL: 'materials/Kirill_Nagliy.png',
-    SVETA: 'materials/Sveta.png'
+    SVETA: 'materials/Sveta.png',
+    VICTOR: 'materials/Viktor.png',
+    KATYA:'materials/KATYA.png'
 };
 
 const BACKGROUNDS = {
@@ -47,7 +49,10 @@ const BACKGROUNDS = {
     ALICE_SLEEP_SAD:   'materials/AliceSleepSad.jpg',
     // для главы 2
     HALL:        'materials/hall.jpg',
-    ARMCH:  'materials/armchairs.jpg'
+    ARMCH:  'materials/armchairs.jpg',
+    CLASSROOM: 'materials/office1.jpg',
+    CABINET:'materials/office2.jpg',
+    CORRIDOR:'materials/CORIDOR.jpg'
 };
 
 // ────────────────────────────────────────────────
@@ -184,8 +189,100 @@ const CHAPTERS = {
     ]},
     { speaker: "Алиса", text: "Фух, кажется, я справилась. Пора домой.", endChapter: true },
 
-    { speaker: "Алиса", text: "Завтра будет важный день.", endChapter: true }
+    { speaker: "Алиса", text: "Завтра будет важный день.", endChapter: true }],
+    3: [
+    // --- Сцена 0: Опоздание ---
+    { speaker: "Света", text: "Опаздываем. Неловко получается, — бегом поднимаясь по лестнице, замечает Света. — Говорят, Виктор Андреевич тот еще душнила.", background: BACKGROUNDS.CORRIDOR, char: null },
+    { speaker: "Алиса", text: "Может, не всё так плохо? Ну с кем не бывает...", char: CHARACTERS.ALICE,background: BACKGROUNDS.CORRIDOR },
+    { speaker: "", text: "Они быстрым шагом заходят в кабинет и замирают, заметив строгий взгляд молодого человека.", char: CHARACTERS.VICTOR,background:BACKGROUNDS.CABINET },
+    { speaker: "Виктор Андреевич", text: "Вот он, лучший пример неподобающего поведения. Дамы, вы не считаете, что это как минимум неуважительно и как максимум неприлично — опаздывать на первое же занятие?", char: CHARACTERS.VICTOR ,background:BACKGROUNDS.CABINET},
+    { speaker: "Виктор Андреевич", text: "Проходите же, незачем в дверях стоять. Но впредь я прошу не опаздывать на мои занятия. Или вовсе не приходить на них.", char: CHARACTERS.VICTOR,background:BACKGROUNDS.CABINET },
+
+    // --- Сцена 5: Первый выбор (Опоздание) ---
+    { isChoice: true, text: "Алиса:", char: CHARACTERS.ALICE,background:BACKGROUNDS.CLASSROOM, choices: [
+        { text: "Тихо сесть.", nextIdx: 14 },
+        { text: "Извините нас, пожалуйста. Больше не повторится.", nextIdx: 14, stats: { victRel: 1 } },
+        { text: "Ну вы тоже давайте не это самое... Мозг с утра не делайте.", nextIdx: 6 }
+    ]},
+
+    // --- Ветка ГЕЙМОВЕР (Дерзость) ---
+    { speaker: "Виктор Андреевич", text: "Прошу прощения, девушка? Вы вообще понимаете, где находитесь?", char: CHARACTERS.VICTOR,background:BACKGROUNDS.CABINET }, // 6
+    { speaker: "Алиса", text: "На паре по бизнес-аналитике.",background:BACKGROUNDS.CLASSROOM, char: CHARACTERS.ALICE }, // 7
+    { speaker: "Виктор Андреевич", text: "О да, вы были на ней минуту назад, а сейчас я прошу вас выйти и подумать над своим поведением.", char: CHARACTERS.VICTOR ,background:BACKGROUNDS.CABINET}, // 8
+    { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Сама решу.", char: CHARACTERS.ALICE }, // 9
+    { speaker: "Виктор Андреевич", text: "Что-о-о?", char: CHARACTERS.VICTOR,background:BACKGROUNDS.CABINET }, // 10
+    { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Самаааа решуууу, — Алиса пожимает плечами, садится за парту. — Продолжайте там свою тему.", char: CHARACTERS.ALICE }, // 11
+    { speaker: "Виктор Андреевич", text: "Ну знаете...", char: CHARACTERS.VICTOR,background:BACKGROUNDS.CABINET }, // 12
+    { speaker: "СИСТЕМА", text: "Алису отчислили. Вы проиграли.", endChapter: true,isGameOver: true }, // 13 (GAME OVER)
+
+    // --- Сцена 14: Продолжение лекции ---
+    { speaker: "",background:BACKGROUNDS.CLASSROOM, text: "Девушки быстро садятся и переглядываются, нервно хихикнув.", char: null },
+    { speaker: "Виктор Андреевич",background:BACKGROUNDS.CABINET, text: "Что ж, на чем это мы остановились? Ах да, в течение семестра вам необходимо будет написать несколько исследовательских работ.", char: CHARACTERS.VICTOR },
+    { speaker: "Виктор Андреевич",background:BACKGROUNDS.CABINET, text: "Темы сами выбирайте, однако предупреждаю: каждая работа должна быть не менее 20 страниц. Можете забыть про студклубы на время нашего семестра.", char: CHARACTERS.VICTOR },
+    { speaker: "Виктор Андреевич",background:BACKGROUNDS.CABINET, text: "Не успеете сдать работу вовремя — она автоматически не засчитывается. Для зачета нужно сдать 5 работ. Есть вопросы?", char: CHARACTERS.VICTOR },
+
+    // --- Сцена 18: Выбор про методичку ---
+    { isChoice: true,background:BACKGROUNDS.CLASSROOM, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+        { text: "Промолчать.", nextIdx: 19 },
+        { text: "Извините, но у нас не только ваш предмет. Вам не кажется, что это слишком?", nextIdx: 21, stats: { ambition: 1, victRel: 1 } }
+    ]},
+
+    // Ветка "Промолчать"
+    { speaker: "Студент",background:BACKGROUNDS.CLASSROOM, text: "Извините, а есть какая-то методичка? Примеры?", char: null }, // 19
+    { speaker: "Виктор Андреевич",background:BACKGROUNDS.CABINET, text: "Да, всё на университетском портале.", char: CHARACTERS.VICTOR, nextIdx: 22 }, // 20
+
+    // Ветка "Возмутиться"
+    { speaker: "Виктор Андреевич", text: "А вам не кажется, что в бизнесе вас никто жалеть не будет? Ещё вопросы есть? Нет? В таком случае приступим.", char: CHARACTERS.VICTOR }, // 21
+
+    // --- Сцена 22: Задание ---
+    { speaker: "",background:BACKGROUNDS.CABINET, text: "Виктор Андреевич взял со стола бумаги и пустил по рядам.", char: null },
+    { speaker: "Виктор Андреевич",background:BACKGROUNDS.CABINET, text: "Возьмите себе один на троих. Перед вами продажи одной маленькой компании. Почему они упали? У вас 15 минут.", char: CHARACTERS.VICTOR },
+    { speaker: "",background:BACKGROUNDS.CLASSROOM, text: "Алиса задумчиво смотрит на листок. Света лишь пожимает плечами. Сзади сидят Максим и еще одна одногруппница.", char: null },
+
+    // --- Сцена 25: Выбор группы ---
+    { isChoice: true,background:BACKGROUNDS.CLASSROOM, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+        { text: "Позвать Макса", nextIdx: 26, stats: { maxRel: 1 } },
+        { text: "Позвать девушку", nextIdx: 29 },
+        { text: "Разобраться самим", nextIdx: 33 }
+    ]},
+
+    // 1. Макс
+    { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Макс, не хочешь с нами?", char: CHARACTERS.ALICE_HORNI}, // 26
+    { speaker: "Максим",background:BACKGROUNDS.CLASSROOM, text: "Конечно, давайте. Я слышал, они недавно сменили рекламу на агрессивную. Возможно, причина в этом...", char: CHARACTERS.MAX }, // 27
+    { speaker: "Света",background:BACKGROUNDS.CLASSROOM, text: "Либо директор проиграл компанию в казик.", char: null, nextIdx: 35 }, // 28
+
+    // 2. Катя
+    { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Эй, хочешь с нами делать?", char: CHARACTERS.ALICE }, // 29
+    { speaker: "Катя",background:BACKGROUNDS.CLASSROOM, text: "Да, спасибо, что позвали. Я Катя. Спросим у чата гпт?", char: CHARACTERS.KATYA }, // 30
+    { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Может хоть попытаемся подумать?", char: CHARACTERS.ALICE }, // 31
+    { speaker: "Катя",background:BACKGROUNDS.CLASSROOM, text: "Можно, а зачем?", char: CHARACTERS.KATYA, nextIdx: 35 }, // 32
+
+    // 3. Сами
+    { speaker: "Света",background:BACKGROUNDS.CLASSROOM, text: "Ничего не понимаю. Ну что такого поменялось у текстильной фирмы за месяц?", char: null }, // 33
+    { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Хлопок некому собирать?", char: CHARACTERS.ALICE }, // 34
+
+    // --- Сцена 35: Конец пары ---
+    { speaker: "",background:BACKGROUNDS.CABINET, text: "Звонок прозвенел неожиданно. Виктор Андреевич вышел из кабинета.", char: null },
+    { speaker: "Света",background:BACKGROUNDS.CLASSROOM, text: "Собираешься сегодня готовиться или пойдешь на выступление?", char: null },
+
+    // --- Сцена 37: Выбор (Идти или нет) ---
+    { isChoice: true,background:BACKGROUNDS.CLASSROOM, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+        { text: "Точно, выступление. Наверное, нет. Надо доделать это задание.", nextIdx: 41 },
+        { text: "Да, уже собралась. Забегу только тетради скину.", nextIdx: 38 }
+    ]},
+
+    // Ветка: Иду на выступление
+    { speaker: "Света", text: "А домашка?", char: CHARACTERS.SVETA,background:BACKGROUNDS.CLASSROOM }, // 38
+    { speaker: "Алиса", text: "Потом сделаю. По ситуации.", char: CHARACTERS.ALICE,background:BACKGROUNDS.CLASSROOM }, // 39
+    { isChoice: true,background:BACKGROUNDS.CLASSROOM, text: "Макса позовешь?", char: CHARACTERS.ALICE, choices: [ // 40
+        { text: "Да, сейчас подойду.", nextIdx: 41, stats: { maxRel: 1 } },
+        { text: "Думаю, сама доберусь.", nextIdx: 41 }
+    ]},
+
+    // Финал главы
+    { speaker: "",background:BACKGROUNDS.CLASSROOM, text: "Глава 3 завершена.", endChapter: true} // 41
 ]
+
     
 };
 
@@ -204,21 +301,27 @@ function updateChapterCards() {
     
     cards.forEach((card, index) => {
         const chapterNum = index + 1;
-        
-        const chapterExists = !!CHAPTERS[chapterNum];
+        const chapterExists = !!CHAPTERS[chapterNum]; // Проверяем, есть ли такая глава в сценарии
+        const isUnlocked = chapterNum <= maxUnlockedChapter;
 
-        if (chapterNum <= maxUnlockedChapter && chapterExists) {
-            card.classList.remove('locked');
-            card.querySelector('.chapter-status').textContent = 'Доступно';
-        } else {
+        // Сначала убираем старые классы, чтобы не дублировались
+        card.classList.remove('locked');
+        const statusElement = card.querySelector('.chapter-status');
+
+        if (!chapterExists) {
+            // Если главы еще нет в коде
             card.classList.add('locked');
-            
-            if (!chapterExists) {
-                card.querySelector('.chapter-status').textContent = 'В разработке';
-            } else {
-                card.querySelector('.chapter-status').textContent = 
-                    chapterNum === 2 ? 'После главы 1' : 'Закрыто';
-            }
+            statusElement.textContent = 'В разработке';
+        } 
+        else if (isUnlocked) {
+            // Если глава разблокирована и существует
+            statusElement.textContent = 'Доступно';
+        } 
+        else {
+            // Если глава существует, но еще закрыта
+            card.classList.add('locked');
+            // Динамически подсказываем, что нужно пройти предыдущую главу
+            statusElement.textContent = `Пройдите главу ${chapterNum - 1}`;
         }
     });
 }
@@ -317,6 +420,7 @@ function renderChoices(choices) {
                     if (s === 'maxRel')   statName = "Отношения с Максом";
                     if (s === 'peak')     statName = "Пикми";
                     if (s === 'kirRel')   statName = "Отношения с Кириллом";
+                    if (s === 'victRel')   statName = "Отношения с Виктором";
                     let sign = value > 0 ? "+" : "";
                     message += `${sign}${value} ${statName}\n`;
                 }
@@ -355,26 +459,35 @@ nextBtn.addEventListener('click', () => {
 });
 
 function finishChapter() {
-    const msg = `Глава ${currentChapter} окончена!`;
+    const chapter = CHAPTERS[currentChapter];
+    const currentScene = chapter[currentSceneIndex];
     
-    // Разблокируем следующую главу
-    if (currentChapter === maxUnlockedChapter) {
+    // 1. Проверяем, проигрыш это или победа
+    const isGameOver = currentScene.isGameOver === true;
+    const msg = isGameOver 
+        ? "Алису отчислили! Игра окончена. Попробуйте еще раз." 
+        : `Глава ${currentChapter} успешно окончена!`;
+
+    // 2. Разблокируем следующую главу ТОЛЬКО если это НЕ проигрыш
+    if (!isGameOver && currentChapter === maxUnlockedChapter) {
         maxUnlockedChapter = currentChapter + 1;
+        
     }
 
-    if (tg.version && tg.isVersionAtLeast && tg.isVersionAtLeast('6.2')) {
-        tg.showAlert(msg, () => {
-            sceneScreen.style.display = 'none';
-            chaptersScreen.style.display = 'flex';
-            sceneHistory = [];
-            updateChapterCards();          // ← вот здесь обновляем карточки
-        });
-    } else {
-        alert(msg);
+    // 3. Логика закрытия экрана сцены (общая для всех)
+    const onClose = () => {
         sceneScreen.style.display = 'none';
         chaptersScreen.style.display = 'flex';
         sceneHistory = [];
-        updateChapterCards();              // ← и здесь
+        updateChapterCards(); // Обновляем замочки на карточках
+    };
+
+    // 4. Вывод сообщения (Telegram или обычный alert)
+    if (tg.version && tg.isVersionAtLeast && tg.isVersionAtLeast('6.2')) {
+        tg.showAlert(msg, onClose);
+    } else {
+        alert(msg);
+        onClose();
     }
 }
 
