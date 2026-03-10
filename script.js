@@ -198,8 +198,8 @@ const CHAPTERS = {
 
     // --- Сцена 5: Первый выбор (Опоздание) ---
     { isChoice: true, speaker: "Алиса:", char: CHARACTERS.ALICE,background:BACKGROUNDS.CLASSROOM, choices: [
-        { text: "Тихо сесть.", nextIdx: 12 },
-        { text: "Извините нас, пожалуйста. Больше не повторится.", nextIdx: 12, stats: { victRel: 1 } },
+        { text: "Тихо сесть.", nextIdx: 14 },
+        { text: "Извините нас, пожалуйста. Больше не повторится.", nextIdx: 14, stats: { victRel: 1 } },
         { text: "Ну вы тоже давайте не это самое... Мозг с утра не делайте.", nextIdx: 6 }
     ]},
 
@@ -221,13 +221,13 @@ const CHAPTERS = {
 
     // --- Сцена 18: Выбор про методичку ---
     { isChoice: true,background:BACKGROUNDS.CLASSROOM, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
-        { text: "Промолчать.", nextIdx: 17 },
-        { text: "Извините, но у нас не только ваш предмет. Вам не кажется, что это слишком?", nextIdx: 19, stats: { ambition: 1, victRel: 1 } }
+        { text: "Промолчать.", nextIdx: 19 },
+        { text: "Извините, но у нас не только ваш предмет. Вам не кажется, что это слишком?", nextIdx: 21, stats: { ambition: 1, victRel: 1 } }
     ]},
 
     // Ветка "Промолчать"
     { speaker: "Студент",background:BACKGROUNDS.CLASSROOM, text: "Извините, а есть какая-то методичка? Примеры?", char: null }, // 19
-    { speaker: "Виктор Андреевич",background:BACKGROUNDS.CABINET, text: "Да, всё на университетском портале.", char: CHARACTERS.VICTOR, nextIdx: 20 }, // 20
+    { speaker: "Виктор Андреевич",background:BACKGROUNDS.CABINET, text: "Да, всё на университетском портале.", char: CHARACTERS.VICTOR, nextIdx: 22 }, // 20
 
     // Ветка "Возмутиться"
     { speaker: "Виктор Андреевич", text: "А вам не кажется, что в бизнесе вас никто жалеть не будет? Ещё вопросы есть? Нет? В таком случае приступим.", char: CHARACTERS.VICTOR }, // 21
@@ -239,21 +239,21 @@ const CHAPTERS = {
 
     // --- Сцена 25: Выбор группы ---
     { isChoice: true,background:BACKGROUNDS.CLASSROOM, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
-        { text: "Позвать Макса", nextIdx: 24, stats: { maxRel: 1 } },
-        { text: "Позвать девушку", nextIdx: 27 },
-        { text: "Разобраться самим", nextIdx: 31 }
+        { text: "Позвать Макса", nextIdx: 26, stats: { maxRel: 1 } },
+        { text: "Позвать девушку", nextIdx: 29 },
+        { text: "Разобраться самим", nextIdx: 33 }
     ]},
 
     // 1. Макс
     { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Макс, не хочешь с нами?", char: CHARACTERS.ALICE_HORNI}, // 26
     { speaker: "Максим",background:BACKGROUNDS.CLASSROOM, text: "Конечно, давайте. Я слышал, они недавно сменили рекламу на агрессивную. Возможно, причина в этом...", char: CHARACTERS.MAX }, // 27
-    { speaker: "Света",background:BACKGROUNDS.CLASSROOM, text: "Либо директор проиграл компанию в казик.", char: null, nextIdx: 33 }, // 28
+    { speaker: "Света",background:BACKGROUNDS.CLASSROOM, text: "Либо директор проиграл компанию в казик.", char: null, nextIdx: 35 }, // 28
 
     // 2. Катя
     { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Эй, хочешь с нами делать?", char: CHARACTERS.ALICE }, // 29
     { speaker: "Катя",background:BACKGROUNDS.CLASSROOM, text: "Да, спасибо, что позвали. Я Катя. Спросим у чата гпт?", char: CHARACTERS.KATYA }, // 30
     { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Может хоть попытаемся подумать?", char: CHARACTERS.ALICE }, // 31
-    { speaker: "Катя",background:BACKGROUNDS.CLASSROOM, text: "Можно, а зачем?", char: CHARACTERS.KATYA, nextIdx: 33 }, // 32
+    { speaker: "Катя",background:BACKGROUNDS.CLASSROOM, text: "Можно, а зачем?", char: CHARACTERS.KATYA, nextIdx: 35 }, // 32
 
     // 3. Сами
     { speaker: "Света",background:BACKGROUNDS.CLASSROOM, text: "Ничего не понимаю. Ну что такого поменялось у текстильной фирмы за месяц?", char: null }, // 33
@@ -265,17 +265,17 @@ const CHAPTERS = {
 
     // --- Сцена 37: Выбор (Идти или нет) ---
     { isChoice: true,background:BACKGROUNDS.CLASSROOM, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
-        { text: "Точно, выступление. Наверное, нет. Надо доделать это задание.", nextIdx: 40 },
-        { text: "Да, уже собралась. Забегу только тетради скину.", nextIdx: 36 }
+        { text: "Точно, выступление. Наверное, нет. Надо доделать это задание.", nextIdx: 42 },
+        { text: "Да, уже собралась. Забегу только тетради скину.", nextIdx: 38 }
     ]},
 
     // Ветка: Иду на выступление
     { speaker: "Света", text: "А домашка?", char: CHARACTERS.SVETA,background:BACKGROUNDS.CLASSROOM }, // 38
     { speaker: "Алиса", text: "Потом сделаю. По ситуации.", char: CHARACTERS.ALICE,background:BACKGROUNDS.CLASSROOM },
-    { speaker: "Алиса", text: "Потом сделаю. По ситуации.", char: CHARACTERS.ALICE,background:BACKGROUNDS.CLASSROOM }, // 40
+    { speaker: "Света", text: "Макса позовёшь?", char: CHARACTERS.SVETA,background:BACKGROUNDS.CLASSROOM }, // 40
     { isChoice: true,background:BACKGROUNDS.CLASSROOM, speaker: "Алиса", char: CHARACTERS.ALICE, choices: [ // 41
-        { text: "Да, сейчас подойду.", nextIdx: 40, stats: { maxRel: 1 } },
-        { text: "Думаю, сама доберусь.", nextIdx: 40 }
+        { text: "Да, сейчас позову.", nextIdx: 42, stats: { maxRel: 1 } },
+        { text: "Думаю, сама доберусь.", nextIdx: 42 }
     ]},
 
     // Финал главы
