@@ -252,20 +252,24 @@
     right: 0;
     z-index: 10;
 
-    /* Полупрозрачный + блюр */
     background: rgba(18, 12, 22, 0.68);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
+    
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 16px 18px 58px 18px;   /* запас снизу под кнопку */
+    align-items: center;           /* ← центрируем содержимое */
+    
+    padding: 16px 18px 70px 18px;  /* запас снизу под кнопки навигации */
     min-height: 140px;
     box-sizing: border-box;
 
-    /* Позволяем немного наезжать на персонажа */
     border-top-left-radius: 18px;
     border-top-right-radius: 18px;
+    
+    overflow-y: auto;              /* если выборов много — прокрутка внутри окна */
+    max-height: 45vh;              /* ограничиваем высоту диалога, чтобы не съедал весь экран */
 }
 
 .dialogue-text {
@@ -313,7 +317,7 @@
     opacity: 0.95;
     letter-spacing: 0.5px;
     height: 28px;      /* Задай фиксированную высоту для имени */
-    margin-bottom: 5px;
+    margin-bottom: 4px;
     display: block;
 }
 
@@ -355,41 +359,22 @@
 
 /* Изменяем контейнер выбора */
 
-.choice-header {
-    font-family: 'Great Vibes', cursive;
-    font-size: 24px;                   /* или 22px, как у speaker-name */
-    color: #ff9ec2;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
-    letter-spacing: 0.5px;
-    text-align: center;
-    margin: 0 0 12px 0;                /* расстояние до кнопок — подбери под вкус */
-    opacity: 0.95;
-}
-
 .choice-container {
     display: none;
     flex-direction: column;
-    gap: 12px;                   /* расстояние между кнопками */
+    gap: 12px;                      /* расстояние между кнопками — минимальное */
     width: 100%;
-    max-width: 380px;
-    margin: 0 auto 80px auto;    /* ← подвинули вверх, добавив margin-bottom */
-    padding: 0 16px;
-    position: relative;
-    z-index: 12;
+    max-width: 360px;              /* чуть уже */
+    padding: 0 10px;               /* меньше боковых отступов */
+    margin: 0;                     /* убираем все внешние margin — блок в потоке */
 }
 
 .choice-container .speaker-name {
-    font-family: 'Great Vibes', cursive;
-    font-size: 24px;                   /* можно чуть больше, чем внизу */
-    color: #ff9ec2;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
-    letter-spacing: 0.5px;
-    text-align: center;
-    margin: 0 0 12px 0;                /* расстояние до кнопок — регулируй здесь (было 5px → 12px для красоты) */
-    padding: 0;
-    height: auto;
-    opacity: 0.95;
+    font-size: 20px;               /* чуть меньше, чем обычное имя */
+    margin-bottom: 6px;            /* минимальное расстояние до кнопок */
+    margin-top: 0;
 }
+
 
 /* Стилизуем кнопки выбора, чтобы они лучше вписывались в узкий блок */
 .choice-button {

@@ -70,7 +70,7 @@ const CHAPTERS = {
         { speaker: "???", text: "Ой, привет… не заметил тебя.", char: CHARACTERS.MAX },
         { speaker: "???", text: "Блин, теперь весь чай на столе...", char: CHARACTERS.MAX },
 
-        { isChoice: true, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+        { isChoice: true, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
             { text: "Жаль, что не ты.",     nextIdx: 9, stats: { peak: 1 } },
             { text: "Промолчать.",          nextIdx: 15, stats: { shy: 1 } }
         ]},
@@ -94,7 +94,7 @@ const CHAPTERS = {
         { speaker: "Алиса", text: "Танцую с детства. А ты?", char: CHARACTERS.ALICE },
         { speaker: "Максим", text: "О, я тоже. Специально сюда поступил — у них сильная команда и крутые конкурсы. Ближайший в ноябре. Пойдёшь?", char: CHARACTERS.MAX },
 
-        { isChoice: true, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+        { isChoice: true, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
             { text: "Конечно, звучит круто!",           nextIdx: 24, stats: { ambition: 1 } },
             { text: "Не знаю… надо подумать.",          nextIdx: 27, stats: { shy: 1 } },
             { text: "Только если ты будешь… Мяу~",     nextIdx: 30, stats: { maxRel: -1, peak: 1 } }
@@ -124,7 +124,7 @@ const CHAPTERS = {
     2: [
         { speaker: "Алиса", text: "Наконец-то презентации клубов начались!", background: BACKGROUNDS.HALL, char: null },
         { speaker: "Света", text: "Да уж. Ты уже решила, в какой клуб хочешь?", background: BACKGROUNDS.ARMCH, char: CHARACTERS.ALICE },
-        { isChoice: true, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+        { isChoice: true, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
             { text: "Не знаю пока, но думаю о танцевальном клубе...",           nextIdx: 3, stats: { shy: 1 } },
             { text: "Хочу в танцевальный клуб.",          nextIdx: 3, stats: { ambition: 1 } }
         ]},
@@ -145,7 +145,7 @@ const CHAPTERS = {
         { speaker: "Кирилл", text: "Есть ли уже желающие пойти к нам? - хитро прищурившись, спросил Кирилл, наблюдая за залом.", char: CHARACTERS.KIRILL },
 
     // --- Выбор: Активность ---
-    { isChoice: true, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+    { isChoice: true, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
         { text: "Да, я бы хотела присоединиться, - подняла руку Алиса.", nextIdx: 17, stats: { ambition: 1 } },
         { text: "*Промолчать*", nextIdx: 18 }
     ]},
@@ -172,7 +172,7 @@ const CHAPTERS = {
     
 
     // --- Финальный выбор главы ---
-    { isChoice: true, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+    { isChoice: true, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
         { text: "*Попрощаться*", stats: { peak: 1 },nextIdx:27},
         { text: "*Уйти незаметно*", nextIdx:32}
     ]},
@@ -182,7 +182,7 @@ const CHAPTERS = {
     { speaker: "", text: "Кирилл заговорщицки подмигнул Алисе.", char: CHARACTERS.KIRILL },
 
     // Результаты выбора
-    { isChoice: true, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+    { isChoice: true, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
         { text: "Спасибо за предложение, звучит заманчиво.", nextIdx: 33, stats: { peak: 1 } },
         { text: "Спасибо за предложение, мы подумаем.", nextIdx: 33 },
         { text: "*Уйти*", nextIdx: 33, stats: { kirRel:-1 } }
@@ -199,7 +199,7 @@ const CHAPTERS = {
     { speaker: "Виктор Андреевич", text: "Проходите же, незачем в дверях стоять. Но впредь я прошу не опаздывать на мои занятия. Или вовсе не приходить на них.", char: CHARACTERS.VICTOR,background:BACKGROUNDS.CABINET },
 
     // --- Сцена 5: Первый выбор (Опоздание) ---
-    { isChoice: true, text: "Алиса:", char: CHARACTERS.ALICE,background:BACKGROUNDS.CLASSROOM, choices: [
+    { isChoice: true, speaker: "Алиса:", char: CHARACTERS.ALICE,background:BACKGROUNDS.CLASSROOM, choices: [
         { text: "Тихо сесть.", nextIdx: 14 },
         { text: "Извините нас, пожалуйста. Больше не повторится.", nextIdx: 14, stats: { victRel: 1 } },
         { text: "Ну вы тоже давайте не это самое... Мозг с утра не делайте.", nextIdx: 6 }
@@ -222,7 +222,7 @@ const CHAPTERS = {
     { speaker: "Виктор Андреевич",background:BACKGROUNDS.CABINET, text: "Не успеете сдать работу вовремя — она автоматически не засчитывается. Для зачета нужно сдать 5 работ. Есть вопросы?", char: CHARACTERS.VICTOR },
 
     // --- Сцена 18: Выбор про методичку ---
-    { isChoice: true,background:BACKGROUNDS.CLASSROOM, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+    { isChoice: true,background:BACKGROUNDS.CLASSROOM, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
         { text: "Промолчать.", nextIdx: 19 },
         { text: "Извините, но у нас не только ваш предмет. Вам не кажется, что это слишком?", nextIdx: 21, stats: { ambition: 1, victRel: 1 } }
     ]},
@@ -240,7 +240,7 @@ const CHAPTERS = {
     { speaker: "",background:BACKGROUNDS.CLASSROOM, text: "Алиса задумчиво смотрит на листок. Света лишь пожимает плечами. Сзади сидят Максим и еще одна одногруппница.", char: null },
 
     // --- Сцена 25: Выбор группы ---
-    { isChoice: true,background:BACKGROUNDS.CLASSROOM, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+    { isChoice: true,background:BACKGROUNDS.CLASSROOM, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
         { text: "Позвать Макса", nextIdx: 26, stats: { maxRel: 1 } },
         { text: "Позвать девушку", nextIdx: 29 },
         { text: "Разобраться самим", nextIdx: 33 }
@@ -266,17 +266,18 @@ const CHAPTERS = {
     { speaker: "Света",background:BACKGROUNDS.CLASSROOM, text: "Собираешься сегодня готовиться или пойдешь на выступление?", char: null },
 
     // --- Сцена 37: Выбор (Идти или нет) ---
-    { isChoice: true,background:BACKGROUNDS.CLASSROOM, text: "Алиса:", char: CHARACTERS.ALICE, choices: [
+    { isChoice: true,background:BACKGROUNDS.CLASSROOM, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
         { text: "Точно, выступление. Наверное, нет. Надо доделать это задание.", nextIdx: 41 },
         { text: "Да, уже собралась. Забегу только тетради скину.", nextIdx: 38 }
     ]},
 
     // Ветка: Иду на выступление
     { speaker: "Света", text: "А домашка?", char: CHARACTERS.SVETA,background:BACKGROUNDS.CLASSROOM }, // 38
-    { speaker: "Алиса", text: "Потом сделаю. По ситуации.", char: CHARACTERS.ALICE,background:BACKGROUNDS.CLASSROOM }, // 39
-    { isChoice: true,background:BACKGROUNDS.CLASSROOM, text: "Макса позовешь?", char: CHARACTERS.ALICE, choices: [ // 40
-        { text: "Да, сейчас подойду.", nextIdx: 41, stats: { maxRel: 1 } },
-        { text: "Думаю, сама доберусь.", nextIdx: 41 }
+    { speaker: "Алиса", text: "Потом сделаю. По ситуации.", char: CHARACTERS.ALICE,background:BACKGROUNDS.CLASSROOM },
+    { speaker: "Алиса", text: "Потом сделаю. По ситуации.", char: CHARACTERS.ALICE,background:BACKGROUNDS.CLASSROOM }, // 40
+    { isChoice: true,background:BACKGROUNDS.CLASSROOM, speaker: "Алиса", char: CHARACTERS.ALICE, choices: [ // 41
+        { text: "Да, сейчас подойду.", nextIdx: 42, stats: { maxRel: 1 } },
+        { text: "Думаю, сама доберусь.", nextIdx: 42 }
     ]},
 
     // Финал главы
@@ -386,10 +387,13 @@ function showScene(index) {
     if (scene.isChoice) {
         nextBtn.style.display = 'none';
         choiceContainer.style.display = 'flex';
+        dialogueText.style.display = 'none';
+        dialogueText.textContent = '';
         renderChoices(scene.choices);
     } else {
         nextBtn.style.display = 'block';
         choiceContainer.style.display = 'none';
+        dialogueText.style.display = 'block';
     }
     
     updateNavButtons();
