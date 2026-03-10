@@ -124,7 +124,7 @@ const CHAPTERS = {
     // ───────────────────────────────
     2: [
         { speaker: "Алиса", text: "Наконец-то презентации клубов начались!", background: BACKGROUNDS.HALL, char: null },
-        { speaker: "Света", text: "Да уж. Ты уже решила, в какой клуб хочешь?", background: BACKGROUNDS.ARMCH, char: CHARACTERS.ALICE },
+        { speaker: "Света", text: "Да уж. Ты уже решила, в какой клуб хочешь?", background: BACKGROUNDS.ARMCH, char: CHARACTERS.SVETA },
         { isChoice: true, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
             { text: "Не знаю пока, но думаю о танцевальном клубе...",           nextIdx: 3, stats: { shy: 1 } },
             { text: "Хочу в танцевальный клуб.",          nextIdx: 3, stats: { ambition: 1 } }
@@ -136,8 +136,8 @@ const CHAPTERS = {
         { speaker: "", text: "На сцену выходит клуб танцоров", background: BACKGROUNDS.SCENE},
         { speaker: "Алиса", text: "Тшш! Потом расскажешь.", background: BACKGROUNDS.ARMCH, char: CHARACTERS.ALICE},
         
-        { speaker: "Диана", text: "Всем добрый вечер, я Диана, заместитель руководителя танцевального клуба.", char: CHARACTERS.DIANA },
-        { speaker: "Диана", text: "А это наш командир, руководитель и просто прекрасный танцор Кирилл.", background: BACKGROUNDS.HALL, char: CHARACTERS.DIANA },
+        { speaker: "Диана", text: "Всем добрый вечер, я Диана, заместитель руководителя танцевального клуба.", background: BACKGROUNDS.HALL, char: CHARACTERS.DIANA },
+        { speaker: "Диана", text: "А это наш командир, руководитель и просто прекрасный танцор Кирилл.", char: CHARACTERS.DIANA },
         { speaker: "Кирилл", text: "Рад видеть вас на этой встрече. В этом году мы набираем много новичков, так что шанс есть у каждого. Наш университет участвует в «Танцы-Шманцы» уже на протяжении 10 лет, 8 из которых мы выходили победителями. В этом году тоже планируем! Так что у вас тоже есть шанс стать победителями. Но учтите, что придется постараться, в команду на конкурс будет отдельный отбор среди всех участников клуба.", char: CHARACTERS.KIRILL },
         { speaker: "Кирилл", text: "Но не переживайте, для тех, кто не сможет попасть в конкурсную команду, тоже найдется занятие. Мы проводим тренировки 3 раза в неделю, а также мастер-классы и участвуем в мероприятиях, помимо конкурсов. Например, наши показательные выступления. Кстати, номер, который вы видели на приветственном дне, был организован нашим клубом.", char: CHARACTERS.KIRILL },
         { speaker: "Кирилл", text: "Есть ли уже желающие пойти к нам?", char: CHARACTERS.KIRILL },
