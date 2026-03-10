@@ -52,7 +52,8 @@ const BACKGROUNDS = {
     ARMCH:  'materials/armchairs.jpg',
     CLASSROOM: 'materials/office1.jpg',
     CABINET:'materials/office2.jpg',
-    CORRIDOR:'materials/CORIDOR.jpg'
+    CORRIDOR:'materials/CORIDOR.jpg',
+    SCENE: 'materials/scene.png'
 };
 
 // ────────────────────────────────────────────────
@@ -132,35 +133,32 @@ const CHAPTERS = {
         { speaker: "Алиса", text: "Умеешь шутить?", char: CHARACTERS.ALICE},
         { speaker: "Света", text: "Как-то раз еврея хотели казнить. Дали ему последнее желание.", char: CHARACTERS.SVETA},
         { speaker: "Света", text: "Он и говорит: хочу черешню. Ему отвечают: сейчас же зима...", char: CHARACTERS.SVETA},
-        { speaker: "", text: "На сцену выходит клуб танцоров", char: null},
+        { speaker: "", text: "На сцену выходит клуб танцоров", background: BACKGROUNDS.SCENE},
         { speaker: "Алиса", text: "Тшш! Потом расскажешь.", background: BACKGROUNDS.ARMCH, char: CHARACTERS.ALICE},
-        { speaker: "", text: "Клубы представлялись один за другим, рассказывая о своих достижениях, мероприятиях и участниках. Но все они не то чтобы заинтересовали Алису, так что с каждой минутой ей становилось все скучнее. А вскоре и вовсе потянуло в сон.", background: BACKGROUNDS.HALL },
-    
-    // --- Выход танцоров ---
-        { speaker: "", text: "К ее счастью, именно в этот момент на сцене появился танцевальный клуб. Его представляли девушка и парень.", background: BACKGROUNDS.HALL, char: null },
-        { speaker: "Диана", text: "Всем добрый вечер, я Диана, заместитель руководителя танцевального клуба, - представилась невысокая темноволосая девушка и помахала рукой в знак приветствия. - А это наш командир, руководитель и просто прекрасный танцор Кирилл.", char: CHARACTERS.DIANA },
-        { speaker: "", text: "Она повернулась в его сторону, протянув обе руки к нему, представляя. Он коротко поклонился, широко улыбаясь.", background: BACKGROUNDS.HALL, char: null },
-        { speaker: "Кирилл", text: "Рад видеть вас на этой встрече. В этом году мы набираем много новичков, так что шанс есть у каждого. Что ж, давайте начнем нашу презентацию. Наш университет участвует в «Танцы-Шманцы» уже на протяжении 10 лет. И 8 из 10 раз мы выходили победителями. В этом году тоже планируем, - Кирилл весело улыбнулся, повернувшись к залу. - Так что у вас тоже есть шанс стать победителями. Но учтите, что придется постараться, в команду на конкурс будет отдельный отбор среди всех участников клуба.", char: CHARACTERS.KIRILL },
+        
+        { speaker: "Диана", text: "Всем добрый вечер, я Диана, заместитель руководителя танцевального клуба.", char: CHARACTERS.DIANA },
+        { speaker: "Диана", text: "А это наш командир, руководитель и просто прекрасный танцор Кирилл.", background: BACKGROUNDS.HALL, char: CHARACTERS.DIANA },
+        { speaker: "Кирилл", text: "Рад видеть вас на этой встрече. В этом году мы набираем много новичков, так что шанс есть у каждого. Наш университет участвует в «Танцы-Шманцы» уже на протяжении 10 лет, 8 из которых мы выходили победителями. В этом году тоже планируем! Так что у вас тоже есть шанс стать победителями. Но учтите, что придется постараться, в команду на конкурс будет отдельный отбор среди всех участников клуба.", char: CHARACTERS.KIRILL },
         { speaker: "Кирилл", text: "Но не переживайте, для тех, кто не сможет попасть в конкурсную команду, тоже найдется занятие. Мы проводим тренировки 3 раза в неделю, а также мастер-классы и участвуем в мероприятиях, помимо конкурсов. Например, наши показательные выступления. Кстати, номер, который вы видели на приветственном дне, был организован нашим клубом.", char: CHARACTERS.KIRILL },
-        { speaker: "Кирилл", text: "Есть ли уже желающие пойти к нам? - хитро прищурившись, спросил Кирилл, наблюдая за залом.", char: CHARACTERS.KIRILL },
+        { speaker: "Кирилл", text: "Есть ли уже желающие пойти к нам?", char: CHARACTERS.KIRILL },
 
     // --- Выбор: Активность ---
     { isChoice: true, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
-        { text: "Да, я бы хотела присоединиться, - подняла руку Алиса.", nextIdx: 17, stats: { ambition: 1 } },
-        { text: "*Промолчать*", nextIdx: 18 }
+        { text: "Да, я бы хотела присоединиться, - подняла руку Алиса.", nextIdx: 15, stats: { ambition: 1 } },
+        { text: "*Промолчать*", nextIdx: 16 }
     ]},
 
     // Ветка 1: Подняла руку
-    { speaker: "Кирилл", text: "Замечательно, красавица! Подойди ко мне сразу после мероприятия.", char: CHARACTERS.KIRILL, nextIdx: 19},
+    { speaker: "Кирилл", text: "Замечательно, красавица! Подойди ко мне сразу после мероприятия.", char: CHARACTERS.KIRILL, nextIdx: 17},
     
     // Ветка 2: Промолчала
-    { speaker: "Кирилл", text: "Ну, если стесняетесь сейчас — подходите после, обсудим просмотр.", char: CHARACTERS.KIRILL,nextIdx: 23},
+    { speaker: "Кирилл", text: "Ну, если стесняетесь сейчас — подходите после, обсудим просмотр.", char: CHARACTERS.KIRILL,nextIdx: 21},
 
     // --- После мероприятия ---
     { speaker: "", text: "Сон как рукой сняло, но каждое следующее выступление длилось мучительно долго. Поэтому, когда объявили о завершении последнего, Алиса чуть ли не подпрыгнула и направилась к танцорам. Следом за ней подошел Максим.", background: BACKGROUNDS.HALL, char: null },
     { speaker: "Кирилл", text: "О, это ты, красавица. Приятно видеть таких смельчаков. Мы уже знакомы заочно, но хотелось бы лично. Я Кирилл, - он протянул руку.", char: CHARACTERS.KIRILL },
     { speaker: "Алиса", text: "Алиса. Очень приятно.", char: CHARACTERS.ALICE },
-    { speaker: "Кирилл", text: "Взаимно, - он повернулся ко всем и объявил. - Сейчас Диана раздаст вам анкеты, заполните их и сдайте, а мы напишем вам позже.", char: CHARACTERS.KIRILL,nextIdx:25},
+    { speaker: "Кирилл", text: "Взаимно, - он повернулся ко всем и объявил. - Сейчас Диана раздаст вам анкеты, заполните их и сдайте, а мы напишем вам позже.", char: CHARACTERS.KIRILL,nextIdx:23},
     
     { speaker: "", text: "Следующие выступления пролетели для Алисы незаметно. Она задумалась о том, как подойти и что лучше сказать, едва не пропустив окончание мероприятия. Когда все начали вставать, Алиса с трудом отыскала взглядом танцоров и поспешила к ним. Следом за ней подошел Максим.", background: BACKGROUNDS.HALL, char: null },
     { speaker: "Кирилл", text: "Сейчас Диана раздаст вам анкеты, заполните их и сдайте, а мы напишем вам позже.", char: CHARACTERS.KIRILL },
@@ -173,8 +171,8 @@ const CHAPTERS = {
 
     // --- Финальный выбор главы ---
     { isChoice: true, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
-        { text: "*Попрощаться*", stats: { peak: 1 },nextIdx:27},
-        { text: "*Уйти незаметно*", nextIdx:32}
+        { text: "*Попрощаться*", stats: { peak: 1 },nextIdx:25},
+        { text: "*Уйти незаметно*", nextIdx:30}
     ]},
     { speaker: "Максим", text: "А как скоро придет ответ?", char: CHARACTERS.MAX },
     { speaker: "Диана", text: "Послезавтра.", char: CHARACTERS.DIANA },
@@ -183,9 +181,9 @@ const CHAPTERS = {
 
     // Результаты выбора
     { isChoice: true, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
-        { text: "Спасибо за предложение, звучит заманчиво.", nextIdx: 33, stats: { peak: 1 } },
-        { text: "Спасибо за предложение, мы подумаем.", nextIdx: 33 },
-        { text: "*Уйти*", nextIdx: 33, stats: { kirRel:-1 } }
+        { text: "Спасибо за предложение, звучит заманчиво.", nextIdx: 31, stats: { peak: 1 } },
+        { text: "Спасибо за предложение, мы подумаем.", nextIdx: 31 },
+        { text: "*Уйти*", nextIdx: 31, stats: { kirRel:-1 } }
     ]},
     { speaker: "Алиса", text: "Фух, кажется, я справилась. Пора домой.", endChapter: true },
 
@@ -200,8 +198,8 @@ const CHAPTERS = {
 
     // --- Сцена 5: Первый выбор (Опоздание) ---
     { isChoice: true, speaker: "Алиса:", char: CHARACTERS.ALICE,background:BACKGROUNDS.CLASSROOM, choices: [
-        { text: "Тихо сесть.", nextIdx: 14 },
-        { text: "Извините нас, пожалуйста. Больше не повторится.", nextIdx: 14, stats: { victRel: 1 } },
+        { text: "Тихо сесть.", nextIdx: 12 },
+        { text: "Извините нас, пожалуйста. Больше не повторится.", nextIdx: 12, stats: { victRel: 1 } },
         { text: "Ну вы тоже давайте не это самое... Мозг с утра не делайте.", nextIdx: 6 }
     ]},
 
@@ -223,13 +221,13 @@ const CHAPTERS = {
 
     // --- Сцена 18: Выбор про методичку ---
     { isChoice: true,background:BACKGROUNDS.CLASSROOM, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
-        { text: "Промолчать.", nextIdx: 19 },
-        { text: "Извините, но у нас не только ваш предмет. Вам не кажется, что это слишком?", nextIdx: 21, stats: { ambition: 1, victRel: 1 } }
+        { text: "Промолчать.", nextIdx: 17 },
+        { text: "Извините, но у нас не только ваш предмет. Вам не кажется, что это слишком?", nextIdx: 19, stats: { ambition: 1, victRel: 1 } }
     ]},
 
     // Ветка "Промолчать"
     { speaker: "Студент",background:BACKGROUNDS.CLASSROOM, text: "Извините, а есть какая-то методичка? Примеры?", char: null }, // 19
-    { speaker: "Виктор Андреевич",background:BACKGROUNDS.CABINET, text: "Да, всё на университетском портале.", char: CHARACTERS.VICTOR, nextIdx: 22 }, // 20
+    { speaker: "Виктор Андреевич",background:BACKGROUNDS.CABINET, text: "Да, всё на университетском портале.", char: CHARACTERS.VICTOR, nextIdx: 20 }, // 20
 
     // Ветка "Возмутиться"
     { speaker: "Виктор Андреевич", text: "А вам не кажется, что в бизнесе вас никто жалеть не будет? Ещё вопросы есть? Нет? В таком случае приступим.", char: CHARACTERS.VICTOR }, // 21
@@ -241,21 +239,21 @@ const CHAPTERS = {
 
     // --- Сцена 25: Выбор группы ---
     { isChoice: true,background:BACKGROUNDS.CLASSROOM, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
-        { text: "Позвать Макса", nextIdx: 26, stats: { maxRel: 1 } },
-        { text: "Позвать девушку", nextIdx: 29 },
-        { text: "Разобраться самим", nextIdx: 33 }
+        { text: "Позвать Макса", nextIdx: 24, stats: { maxRel: 1 } },
+        { text: "Позвать девушку", nextIdx: 27 },
+        { text: "Разобраться самим", nextIdx: 31 }
     ]},
 
     // 1. Макс
     { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Макс, не хочешь с нами?", char: CHARACTERS.ALICE_HORNI}, // 26
     { speaker: "Максим",background:BACKGROUNDS.CLASSROOM, text: "Конечно, давайте. Я слышал, они недавно сменили рекламу на агрессивную. Возможно, причина в этом...", char: CHARACTERS.MAX }, // 27
-    { speaker: "Света",background:BACKGROUNDS.CLASSROOM, text: "Либо директор проиграл компанию в казик.", char: null, nextIdx: 35 }, // 28
+    { speaker: "Света",background:BACKGROUNDS.CLASSROOM, text: "Либо директор проиграл компанию в казик.", char: null, nextIdx: 33 }, // 28
 
     // 2. Катя
     { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Эй, хочешь с нами делать?", char: CHARACTERS.ALICE }, // 29
     { speaker: "Катя",background:BACKGROUNDS.CLASSROOM, text: "Да, спасибо, что позвали. Я Катя. Спросим у чата гпт?", char: CHARACTERS.KATYA }, // 30
     { speaker: "Алиса",background:BACKGROUNDS.CLASSROOM, text: "Может хоть попытаемся подумать?", char: CHARACTERS.ALICE }, // 31
-    { speaker: "Катя",background:BACKGROUNDS.CLASSROOM, text: "Можно, а зачем?", char: CHARACTERS.KATYA, nextIdx: 35 }, // 32
+    { speaker: "Катя",background:BACKGROUNDS.CLASSROOM, text: "Можно, а зачем?", char: CHARACTERS.KATYA, nextIdx: 33 }, // 32
 
     // 3. Сами
     { speaker: "Света",background:BACKGROUNDS.CLASSROOM, text: "Ничего не понимаю. Ну что такого поменялось у текстильной фирмы за месяц?", char: null }, // 33
@@ -267,8 +265,8 @@ const CHAPTERS = {
 
     // --- Сцена 37: Выбор (Идти или нет) ---
     { isChoice: true,background:BACKGROUNDS.CLASSROOM, speaker: "Алиса:", char: CHARACTERS.ALICE, choices: [
-        { text: "Точно, выступление. Наверное, нет. Надо доделать это задание.", nextIdx: 41 },
-        { text: "Да, уже собралась. Забегу только тетради скину.", nextIdx: 38 }
+        { text: "Точно, выступление. Наверное, нет. Надо доделать это задание.", nextIdx: 40 },
+        { text: "Да, уже собралась. Забегу только тетради скину.", nextIdx: 36 }
     ]},
 
     // Ветка: Иду на выступление
@@ -276,12 +274,12 @@ const CHAPTERS = {
     { speaker: "Алиса", text: "Потом сделаю. По ситуации.", char: CHARACTERS.ALICE,background:BACKGROUNDS.CLASSROOM },
     { speaker: "Алиса", text: "Потом сделаю. По ситуации.", char: CHARACTERS.ALICE,background:BACKGROUNDS.CLASSROOM }, // 40
     { isChoice: true,background:BACKGROUNDS.CLASSROOM, speaker: "Алиса", char: CHARACTERS.ALICE, choices: [ // 41
-        { text: "Да, сейчас подойду.", nextIdx: 42, stats: { maxRel: 1 } },
-        { text: "Думаю, сама доберусь.", nextIdx: 42 }
+        { text: "Да, сейчас подойду.", nextIdx: 40, stats: { maxRel: 1 } },
+        { text: "Думаю, сама доберусь.", nextIdx: 40 }
     ]},
 
     // Финал главы
-    { speaker: "",background:BACKGROUNDS.CLASSROOM, text: "Глава 3 завершена.", endChapter: true} // 41
+    { speaker: "",background:BACKGROUNDS.CLASSROOM, text: "Глава 3 завершена.", endChapter: true} // 40
 ]
 
     
